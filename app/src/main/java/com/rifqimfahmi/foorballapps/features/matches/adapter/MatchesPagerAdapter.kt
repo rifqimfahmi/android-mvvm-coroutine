@@ -13,8 +13,8 @@ class MatchesPagerAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> MatchesListFragment.newInstance()
-            1 -> MatchesListFragment.newInstance()
+            0 -> MatchesListFragment.newInstance(MatchesListFragment.TYPE_NEXT_MATCH)
+            1 -> MatchesListFragment.newInstance(MatchesListFragment.TYPE_PREV_MATCH)
             else -> error("Cannot create more than two fragment")
         }
     }
