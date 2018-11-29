@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name">Football Apps</string>
+    <string name="title_matches">Matches</string>
+    <string name="tittle_teams">Teams</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_search">Search</string>
+
+    <string-array name="leagues">
+        <item>English Premier League</item>
+        <item>English League Championship</item>
+        <item>Scottish Premier League</item>
+        <item>German Bundesliga</item>
+        <item>Italian Serie A</item>
+        <item>French Ligue 1</item>
+        <item>Spanish La Liga</item>
+        <item>Greek Superleague Greece</item>
+        <item>Dutch Eredivisie</item>
+        <item>Belgian Jupiler League</item>
+        <item>Turkish Super Lig</item>
+        <item>Danish Superliga</item>
+        <item>Portuguese Primeira Liga</item>
+        <item>American Major League Soccer</item>
+        <item>Swedish Allsvenskan</item>
+        <item>Mexican Primera League</item>
+        <item>Brazilian Brasileirao</item>
+        <item>Ukrainian Premier League</item>
+        <item>Russian Football Premier League</item>
+        <item>Australian A-League</item>
+        <item>Eliteserien</item>
+        <item>Chinese Super League</item>
+        <item>_No League</item>
+        <item>Italian Serie B</item>
+        <item>Scottish Championship</item>
+        <item>English League 1</item>
+        <item>English League 2</item>
+        <item>Italian Lega Pro</item>
+        <item>German 2. Bundesliga</item>
+        <item>Spanish Adelante</item>
+        <item>French Ligue 2</item>
+        <item>Swedish Superettan</item>
+        <item>Brazilian Brasileirao Serie B</item>
+        <item>Argentinian Primera Division</item>
+        <item>Polish Ekstraklasa</item>
+        <item>FIFA World Cup</item>
+        <item>Uruguayan Primera Division</item>
+        <item>American NASL</item>
+        <item>Norwegian 1. Divisjon</item>
+        <item>Welsh Premier League</item>
+        <item>UEFA Champions League</item>
+        <item>UEFA Europa League</item>
+        <item>FA Cup</item>
+        <item>Copa del Rey</item>
+        <item>Coupe de France</item>
+        <item>DFB-Pokal</item>
+        <item>UEFA Nations League</item>
+    </string-array>
+
+    <string-array name="leagues_id">
+        <item>4328</item>
+        <item>4329</item>
+        <item>4330</item>
+        <item>4331</item>
+        <item>4332</item>
+        <item>4334</item>
+        <item>4335</item>
+        <item>4336</item>
+        <item>4337</item>
+        <item>4338</item>
+        <item>4339</item>
+        <item>4340</item>
+        <item>4344</item>
+        <item>4346</item>
+        <item>4347</item>
+        <item>4350</item>
+        <item>4351</item>
+        <item>4354</item>
+        <item>4355</item>
+        <item>4356</item>
+        <item>4358</item>
+        <item>4359</item>
+        <item>4367</item>
+        <item>4394</item>
+        <item>4395</item>
+        <item>4396</item>
+        <item>4397</item>
+        <item>4398</item>
+        <item>4399</item>
+        <item>4400</item>
+        <item>4401</item>
+        <item>4403</item>
+        <item>4404</item>
+        <item>4406</item>
+        <item>4422</item>
+        <item>4429</item>
+        <item>4432</item>
+        <item>4435</item>
+        <item>4457</item>
+        <item>4472</item>
+        <item>4480</item>
+        <item>4481</item>
+        <item>4482</item>
+        <item>4483</item>
+        <item>4484</item>
+        <item>4485</item>
+        <item>4490</item>
+    </string-array>
+
+</resources>

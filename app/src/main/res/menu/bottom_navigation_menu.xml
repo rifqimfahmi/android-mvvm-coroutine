@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/ic_matches"
+        android:id="@+id/matches"
+        android:title="@string/title_matches" />
+    <item
+        android:icon="@drawable/ic_teams"
+        android:id="@+id/teams"
+        android:title="@string/tittle_teams" />
+    <item
+        android:icon="@drawable/ic_favorites"
+        android:id="@+id/favorites"
+        android:title="@string/title_favorites" />
+</menu>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".features.matches.MatchesActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabMatches"
+            style="@style/Widget.MaterialComponents.TabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="top"
+            app:tabBackground="@color/colorPrimary"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@color/tabTextColor" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <Spinner
+        android:id="@+id/sp_leagues"
+        android:entries="@array/leagues"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpMatches"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
