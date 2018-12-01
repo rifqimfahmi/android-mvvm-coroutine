@@ -1,6 +1,7 @@
 package com.rifqimfahmi.foorballapps.features.matches
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,15 +23,19 @@ class MatchesListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.list_items, container, false).also { view ->
             viewModel = (activity as MatchesActivity).obtainViewModel()
-            viewModel.apply {
-
-            }
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupList()
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        viewModel.nextMatches.observe(activity as MatchesActivity, Observer { data ->
+            Log.d("SOME_DATA", data.toString())
+        })
     }
 
     private fun setupList() {

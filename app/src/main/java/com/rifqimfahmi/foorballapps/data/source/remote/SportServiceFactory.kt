@@ -1,6 +1,9 @@
 package com.rifqimfahmi.foorballapps.data.source.remote
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.rifqimfahmi.foorballapps.util.LiveDataCallAdapterFactory
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -20,13 +23,23 @@ class SportServiceFactory {
             return INSTANCE ?: synchronized(this) {
                 val instance = Retrofit.Builder()
                     .baseUrl(BASE_URL)
+                    .client(provideOkHttpClient())
                     .addConverterFactory(MoshiConverterFactory.create())
-                    .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                    .addCallAdapterFactory(LiveDataCallAdapterFactory())
                     .build()
                     .create(SportService::class.java)
                 INSTANCE = instance
                 instance
             }
+        }
+
+        private fun provideOkHttpClient(): OkHttpClient {
+            val interceptor = HttpLoggingInterceptor()
+            interceptor.level = HttpLoggingInterceptor.Level.BODY
+
+            val client = OkHttpClient.Builder()
+            client.addInterceptor(interceptor)
+            return client.build()
         }
     }
 }

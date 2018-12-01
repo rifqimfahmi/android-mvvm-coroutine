@@ -57,4 +57,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycle_version"
     testImplementation "androidx.arch.core:core-testing:$rootProject.lifecycle_version"
+
+
+    // OKHttp
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:$rootProject.okHttpVersion"
 }

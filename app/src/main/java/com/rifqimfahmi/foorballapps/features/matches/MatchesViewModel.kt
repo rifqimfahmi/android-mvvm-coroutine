@@ -10,6 +10,7 @@ import com.rifqimfahmi.foorballapps.data.source.SportRepository
 import com.rifqimfahmi.foorballapps.util.AbsentLiveData
 import com.rifqimfahmi.foorballapps.util.getLeaguesId
 import com.rifqimfahmi.foorballapps.vo.Match
+import com.rifqimfahmi.foorballapps.vo.Resource
 
 /*
  * Created by Rifqi Mulya Fahmi on 21/11/18.
@@ -18,10 +19,22 @@ import com.rifqimfahmi.foorballapps.vo.Match
 class MatchesViewModel(context: Application, sportRepository: SportRepository) : AndroidViewModel(context) {
 
     // LiveData for league categories
-    val filterLeagueId = MutableLiveData<String>()
-    val matches: LiveData<List<Match>> = Transformations.switchMap(filterLeagueId) {
+    private val filterLeagueId = MutableLiveData<String>()
 
-        AbsentLiveData.create<List<Match>>()
+    val nextMatches: LiveData<Resource<List<Match>>> = Transformations.switchMap(filterLeagueId) { leagueId ->
+        if (leagueId.isNullOrBlank()) {
+            AbsentLiveData.create()
+        } else {
+            sportRepository.nextMatches(leagueId)
+        }
+    }
+
+    val lastMatch: LiveData<Resource<List<Match>>> = Transformations.switchMap(filterLeagueId) { leagueId ->
+        if (leagueId.isNullOrBlank()) {
+            AbsentLiveData.create()
+        } else {
+            sportRepository.lastMatch(leagueId)
+        }
     }
 
     val context: Context = context.applicationContext // application Context to avoid leaks
@@ -30,7 +43,4 @@ class MatchesViewModel(context: Application, sportRepository: SportRepository) :
         filterLeagueId.value = context.getLeaguesId(position)
     }
 
-    fun loadMatch(leaguesId: String, type: String?) {
-
-    }
 }
