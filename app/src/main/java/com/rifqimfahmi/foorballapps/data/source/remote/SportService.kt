@@ -12,13 +12,13 @@ import retrofit2.http.Query
 
 interface SportService {
 
-    @GET("eventspastleague.php?id=4328/")
-    fun getLastMatch() : LiveData<ApiResponse<SchedulesResponse>>
+    @GET("eventspastleague.php")
+    fun getLastMatch(@Query("id") leagueId: String) : LiveData<ApiResponse<SchedulesResponse>>
 
-    @GET("eventsnextleague.php?id=4328/")
-    fun getNextMatch() : LiveData<ApiResponse<SchedulesResponse>>
+    @GET("eventsnextleague.php")
+    fun getNextMatch(@Query("id") leagueId: String) : LiveData<ApiResponse<SchedulesResponse>>
 
-    @GET("lookupevent.php/")
+    @GET("lookupevent.php")
     fun getEventDetail(@Query("id") id: String) : LiveData<ApiResponse<SchedulesResponse>>
 
 //    @GET("lookupteam.php/")

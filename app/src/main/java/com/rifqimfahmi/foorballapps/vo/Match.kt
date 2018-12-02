@@ -1,8 +1,10 @@
 package com.rifqimfahmi.foorballapps.vo
 
+import android.annotation.SuppressLint
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
+import java.text.SimpleDateFormat
 
 /*
  * Created by Rifqi Mulya Fahmi on 26/11/18.
@@ -115,4 +117,19 @@ data class Match (
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null
+
+    var matchType: String? = null
+
+    @SuppressLint("SimpleDateFormat")
+    fun getDate() : String {
+        dateEvent?.let {
+            val pattern = "EEE, d MMM yyyy"
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+            val date = dateFormat.parse(it)
+            dateFormat.applyPattern(pattern)
+            return dateFormat.format(date)
+        }
+        return ""
+    }
+
 }

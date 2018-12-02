@@ -35,7 +35,7 @@ class ViewModelFactory private constructor(
                 ViewModelFactory(
                     application,
                     SportRepository.getInstance(
-                        SportDb.getDatabase(application.applicationContext).sportDao(),
+                        SportDb.getDatabase(application.applicationContext),
                         SportServiceFactory.getService()
                     )
                 ).also { INSTANCE = it }

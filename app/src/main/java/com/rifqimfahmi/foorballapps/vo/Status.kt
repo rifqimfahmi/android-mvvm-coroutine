@@ -7,5 +7,6 @@ package com.rifqimfahmi.foorballapps.vo
 enum class Status {
     SUCCESS,
     ERROR,
-    LOADING
+    LOADING,
+    EMPTY
 }

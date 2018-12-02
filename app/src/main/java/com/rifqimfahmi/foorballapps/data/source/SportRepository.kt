@@ -1,11 +1,15 @@
 package com.rifqimfahmi.foorballapps.data.source
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.rifqimfahmi.foorballapps.data.source.local.SportDao
+import com.rifqimfahmi.foorballapps.data.source.local.SportDb
 import com.rifqimfahmi.foorballapps.data.source.remote.ApiResponse
 import com.rifqimfahmi.foorballapps.data.source.remote.NetworkBoundResource
 import com.rifqimfahmi.foorballapps.data.source.remote.SportService
 import com.rifqimfahmi.foorballapps.data.source.remote.json.SchedulesResponse
+import com.rifqimfahmi.foorballapps.features.matches.MatchesListFragment
 import com.rifqimfahmi.foorballapps.util.AbsentLiveData
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
@@ -15,41 +19,44 @@ import com.rifqimfahmi.foorballapps.vo.Resource
  */
 
 class SportRepository (
-    val sportDb: SportDao,
+    val db: SportDb,
+    val sportDao: SportDao,
     val sportService: SportService
 ) {
 
     fun nextMatches(leagueId: String) : LiveData<Resource<List<Match>>> {
         return object : NetworkBoundResource<List<Match> ,SchedulesResponse>() {
-            override fun onFetchFailed() {
-            }
 
             override fun saveCallResult(item: SchedulesResponse) {
+                val matches = item.events
+                matches?.forEach { match ->
+                    match?.let {
+                        match.matchType = MatchesListFragment.TYPE_NEXT_MATCH
+                    }
+                }
+
+                db.runInTransaction {
+                    sportDao.deleteNextMatches(leagueId)
+                    sportDao.saveMatches(matches)
+                }
             }
 
-            override fun createCall(): LiveData<ApiResponse<SchedulesResponse>> = sportService.getNextMatch()
+            override fun createCall(): LiveData<ApiResponse<SchedulesResponse>> = sportService.getNextMatch(leagueId)
 
+            override fun shouldFetch(data: List<Match>?) = true
 
-            override fun shouldFetch(data: List<Match>?): Boolean {
-                return true
-            }
-
-            override fun loadFromDb(): LiveData<List<Match>> {
-                return AbsentLiveData.create()
-            }
+            override fun loadFromDb(): LiveData<List<Match>> = sportDao.getNextMatches(leagueId)
 
         }.asLiveData()
     }
 
     fun lastMatch(leagueId: String) : LiveData<Resource<List<Match>>> {
         return object : NetworkBoundResource<List<Match> ,SchedulesResponse>() {
-            override fun onFetchFailed() {
-            }
 
             override fun saveCallResult(item: SchedulesResponse) {
             }
 
-            override fun createCall(): LiveData<ApiResponse<SchedulesResponse>> = sportService.getNextMatch()
+            override fun createCall(): LiveData<ApiResponse<SchedulesResponse>> = sportService.getLastMatch(leagueId)
 
 
             override fun shouldFetch(data: List<Match>?): Boolean {
@@ -66,9 +73,9 @@ class SportRepository (
     companion object {
         private var INSTANCE: SportRepository? = null
 
-        fun getInstance(sportDb: SportDao, sportService: SportService) : SportRepository =
+        fun getInstance(sportDb: SportDb, sportService: SportService) : SportRepository =
                 INSTANCE ?: synchronized(SportRepository::class.java) {
-                    SportRepository(sportDb, sportService)
+                    SportRepository(sportDb, sportDb.sportDao(), sportService)
                         .also { INSTANCE = it }
                 }
     }

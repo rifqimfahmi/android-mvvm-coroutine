@@ -29,7 +29,7 @@ class MatchesViewModel(context: Application, sportRepository: SportRepository) :
         }
     }
 
-    val lastMatch: LiveData<Resource<List<Match>>> = Transformations.switchMap(filterLeagueId) { leagueId ->
+    val prevMatch: LiveData<Resource<List<Match>>> = Transformations.switchMap(filterLeagueId) { leagueId ->
         if (leagueId.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {

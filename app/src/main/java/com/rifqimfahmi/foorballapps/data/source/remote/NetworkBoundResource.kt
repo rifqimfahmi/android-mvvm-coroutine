@@ -75,7 +75,7 @@ constructor() {
         }
     }
 
-    abstract fun onFetchFailed()
+    protected open fun onFetchFailed() {}
 
     fun asLiveData() = result as LiveData<Resource<ResultType>>
 

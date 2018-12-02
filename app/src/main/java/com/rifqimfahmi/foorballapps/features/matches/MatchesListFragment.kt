@@ -1,7 +1,6 @@
 package com.rifqimfahmi.foorballapps.features.matches
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rifqimfahmi.foorballapps.R
-import com.rifqimfahmi.foorballapps.features.matches.adapter.MatchesRVAdapter
+import com.rifqimfahmi.foorballapps.features.matches.adapter.MatchesAdapter
+import com.rifqimfahmi.foorballapps.vo.Resource
 import kotlinx.android.synthetic.main.list_items.*
 
 /*
@@ -29,18 +29,26 @@ class MatchesListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupList()
-        initRecyclerView()
-    }
-
-    private fun initRecyclerView() {
-        viewModel.nextMatches.observe(activity as MatchesActivity, Observer { data ->
-            Log.d("SOME_DATA", data.toString())
-        })
     }
 
     private fun setupList() {
-        rv_list.adapter = MatchesRVAdapter()
         rv_list.layoutManager = LinearLayoutManager(context)
+        rv_list.adapter = MatchesAdapter(Resource.empty()) {
+
+        }
+
+        when (getType()) {
+            TYPE_NEXT_MATCH -> {
+                viewModel.nextMatches.observe(activity as MatchesActivity, Observer { data ->
+                    (rv_list.adapter as MatchesAdapter).submitData(data)
+                })
+            }
+            TYPE_PREV_MATCH -> {
+                viewModel.prevMatch.observe(activity as MatchesActivity, Observer { data ->
+                    (rv_list.adapter as MatchesAdapter).submitData(data)
+                })
+            }
+        }
     }
 
     private fun getType(): String? {
