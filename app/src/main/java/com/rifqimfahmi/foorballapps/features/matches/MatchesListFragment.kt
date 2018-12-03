@@ -33,7 +33,7 @@ class MatchesListFragment : Fragment() {
 
     private fun setupList() {
         rv_list.layoutManager = LinearLayoutManager(context)
-        rv_list.adapter = MatchesAdapter(Resource.empty()) {
+        rv_list.adapter = MatchesAdapter(context, Resource.loading(null)) {
 
         }
 

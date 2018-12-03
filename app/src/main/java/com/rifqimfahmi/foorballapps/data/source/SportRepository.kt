@@ -27,6 +27,10 @@ class SportRepository (
     fun nextMatches(leagueId: String) : LiveData<Resource<List<Match>>> {
         return object : NetworkBoundResource<List<Match> ,SchedulesResponse>() {
 
+            override fun onFetchFailed() {
+                super.onFetchFailed()
+            }
+
             override fun saveCallResult(item: SchedulesResponse) {
                 val matches = item.events
                 matches?.forEach { match ->
