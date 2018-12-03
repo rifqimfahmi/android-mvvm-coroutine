@@ -9,7 +9,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.features.matches.adapter.MatchesAdapter
+import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
+import com.rifqimfahmi.foorballapps.vo.Status
 import kotlinx.android.synthetic.main.list_items.*
 
 /*
@@ -32,6 +34,7 @@ class MatchesListFragment : Fragment() {
     }
 
     private fun setupList() {
+        srl_list.setOnRefreshListener { viewModel.refreshMatches() }
         rv_list.layoutManager = LinearLayoutManager(context)
         rv_list.adapter = MatchesAdapter(context, Resource.loading(null)) {
 
@@ -41,14 +44,20 @@ class MatchesListFragment : Fragment() {
             TYPE_NEXT_MATCH -> {
                 viewModel.nextMatches.observe(activity as MatchesActivity, Observer { data ->
                     (rv_list.adapter as MatchesAdapter).submitData(data)
+                    updateRefreshIndicator(data)
                 })
             }
             TYPE_PREV_MATCH -> {
                 viewModel.prevMatch.observe(activity as MatchesActivity, Observer { data ->
                     (rv_list.adapter as MatchesAdapter).submitData(data)
+                    updateRefreshIndicator(data)
                 })
             }
         }
+    }
+
+    private fun <T> updateRefreshIndicator(data: Resource<List<T>>) {
+        srl_list.isRefreshing = data.status == Status.LOADING
     }
 
     private fun getType(): String? {

@@ -54,50 +54,28 @@ abstract class BaseRVAdapter<T>(val ctx: Context?, var resource: Resource<List<T
     }
 
     override fun getItemCount(): Int {
-        when (resource.status) {
-            Status.LOADING -> return 1
-            Status.ERROR -> {
-                if (resource.data.isNullOrEmpty()) {
-                    return 1
-                }
-            }
-            Status.SUCCESS -> {
-                if (resource.data.isNullOrEmpty()) {
-                    return 1
-                }
-                return resource.data?.size ?: 0
-            }
-            Status.EMPTY -> {
-                if (resource.data.isNullOrEmpty()) {
-                    return 1
-                }
+        if (resource.data.isNullOrEmpty()) {
+           return when (resource.status) {
+                Status.LOADING,
+                Status.ERROR,
+                Status.SUCCESS,
+                Status.EMPTY -> 1
             }
         }
+
         return resource.data?.size ?: 0
     }
 
     override fun getItemViewType(position: Int): Int {
-        when (resource.status) {
-            Status.LOADING -> {
-                return TYPE_LOADING
-            }
-            Status.ERROR -> {
-                if (resource.data.isNullOrEmpty()) {
-                    return TYPE_ERROR
-                }
-            }
-            Status.SUCCESS -> {
-                if (resource.data.isNullOrEmpty()) {
-                    return TYPE_EMPTY
-                }
-                return TYPE_DATA
-            }
-            Status.EMPTY -> {
-                if (resource.data.isNullOrEmpty()) {
-                    return TYPE_EMPTY
-                }
+        if (resource.data.isNullOrEmpty()) {
+            return when (resource.status) {
+                Status.LOADING -> TYPE_LOADING
+                Status.ERROR -> TYPE_ERROR
+                Status.SUCCESS -> TYPE_EMPTY
+                Status.EMPTY -> TYPE_EMPTY
             }
         }
+
         return TYPE_DATA
     }
 

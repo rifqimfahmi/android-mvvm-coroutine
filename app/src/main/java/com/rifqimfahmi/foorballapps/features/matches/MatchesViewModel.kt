@@ -43,4 +43,8 @@ class MatchesViewModel(context: Application, sportRepository: SportRepository) :
         filterLeagueId.value = context.getLeaguesId(position)
     }
 
+    fun refreshMatches() {
+        filterLeagueId.postValue(filterLeagueId.value)
+    }
+
 }

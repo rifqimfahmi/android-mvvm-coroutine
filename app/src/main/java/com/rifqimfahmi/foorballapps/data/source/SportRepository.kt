@@ -26,11 +26,6 @@ class SportRepository (
 
     fun nextMatches(leagueId: String) : LiveData<Resource<List<Match>>> {
         return object : NetworkBoundResource<List<Match> ,SchedulesResponse>() {
-
-            override fun onFetchFailed() {
-                super.onFetchFailed()
-            }
-
             override fun saveCallResult(item: SchedulesResponse) {
                 val matches = item.events
                 matches?.forEach { match ->
@@ -58,18 +53,24 @@ class SportRepository (
         return object : NetworkBoundResource<List<Match> ,SchedulesResponse>() {
 
             override fun saveCallResult(item: SchedulesResponse) {
+                val matches = item.events
+                matches?.forEach { match ->
+                    match?.let {
+                        match.matchType = MatchesListFragment.TYPE_PREV_MATCH
+                    }
+                }
+
+                db.runInTransaction {
+                    sportDao.deletePrevMatches(leagueId)
+                    sportDao.saveMatches(matches)
+                }
             }
 
             override fun createCall(): LiveData<ApiResponse<SchedulesResponse>> = sportService.getLastMatch(leagueId)
 
+            override fun shouldFetch(data: List<Match>?): Boolean = true
 
-            override fun shouldFetch(data: List<Match>?): Boolean {
-                return true
-            }
-
-            override fun loadFromDb(): LiveData<List<Match>> {
-                return AbsentLiveData.create()
-            }
+            override fun loadFromDb(): LiveData<List<Match>> = sportDao.getPrevMatches(leagueId)
 
         }.asLiveData()
     }
