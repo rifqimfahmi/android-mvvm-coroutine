@@ -6,6 +6,12 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'kotlin-allopen'
+
+allOpen {
+    annotation "com.rifqimfahmi.foorballapps.testing.OpenClass"
+}
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -37,6 +43,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:$rootProject.mockito"
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
@@ -70,4 +77,11 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
     implementation "com.squareup.okhttp3:okhttp-urlconnection:$rootProject.okHttpVersion"
+}
+
+// enable all open for debug builds only
+project.tasks.whenTaskAdded {
+    if (it.name == "testRealeaseUnitTest") {
+        it.enabled = false
+    }
 }

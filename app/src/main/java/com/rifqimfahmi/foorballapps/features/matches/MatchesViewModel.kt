@@ -46,5 +46,4 @@ class MatchesViewModel(context: Application, sportRepository: SportRepository) :
     fun refreshMatches() {
         filterLeagueId.postValue(filterLeagueId.value)
     }
-
 }
