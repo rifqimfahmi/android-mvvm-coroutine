@@ -5,11 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.rifqimfahmi.foorballapps.vo.Match
+import com.rifqimfahmi.foorballapps.vo.Team
 
 /*
  * Created by Rifqi Mulya Fahmi on 19/11/18.
  */
-@Database(entities = [Match::class], version = 2)
+@Database(entities = [Match::class, Team::class], version = 5)
 abstract class SportDb : RoomDatabase() {
 
     abstract fun sportDao(): SportDao

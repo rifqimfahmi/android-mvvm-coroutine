@@ -7,11 +7,13 @@ import com.rifqimfahmi.foorballapps.data.source.remote.ApiResponse
 import com.rifqimfahmi.foorballapps.data.source.remote.NetworkBoundResource
 import com.rifqimfahmi.foorballapps.data.source.remote.SportService
 import com.rifqimfahmi.foorballapps.data.source.remote.json.SchedulesResponse
+import com.rifqimfahmi.foorballapps.data.source.remote.json.TeamsResponse
 import com.rifqimfahmi.foorballapps.features.matches.MatchesListFragment
 import com.rifqimfahmi.foorballapps.testing.OpenClass
 import com.rifqimfahmi.foorballapps.testing.OpenForTesting
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
+import com.rifqimfahmi.foorballapps.vo.Team
 
 /*
  * Created by Rifqi Mulya Fahmi on 19/11/18.
@@ -49,7 +51,7 @@ class SportRepository(
         }.asLiveData()
     }
 
-    fun lastMatch(leagueId: String): LiveData<Resource<List<Match>>> {
+    fun prevMatches(leagueId: String): LiveData<Resource<List<Match>>> {
         return object : NetworkBoundResource<List<Match>, SchedulesResponse>() {
 
             override fun saveCallResult(item: SchedulesResponse) {
@@ -71,6 +73,26 @@ class SportRepository(
             override fun shouldFetch(data: List<Match>?): Boolean = true
 
             override fun loadFromDb(): LiveData<List<Match>> = sportDao.getPrevMatches(leagueId)
+
+        }.asLiveData()
+    }
+
+    fun teams(leagueId: String): LiveData<Resource<List<Team>>> {
+        return object : NetworkBoundResource<List<Team>, TeamsResponse>() {
+
+            override fun saveCallResult(item: TeamsResponse) {
+                item.teams?.let {
+                    db.runInTransaction {
+                        sportDao.saveTeams(it)
+                    }
+                }
+            }
+
+            override fun createCall(): LiveData<ApiResponse<TeamsResponse>> = sportService.getTeams(leagueId)
+
+            override fun shouldFetch(data: List<Team>?): Boolean = true
+
+            override fun loadFromDb(): LiveData<List<Team>> = sportDao.getTeams(leagueId)
 
         }.asLiveData()
     }

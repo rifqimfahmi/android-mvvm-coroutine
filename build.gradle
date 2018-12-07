@@ -1,5 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 ext {
+    picasso = "2.71828"
     mockito = "2.23.4"
     coroutine = "1.0.0"
     retrofit = "2.4.0"

@@ -11,6 +11,7 @@ import com.rifqimfahmi.foorballapps.util.AbsentLiveData
 import com.rifqimfahmi.foorballapps.util.getLeaguesId
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
+import com.rifqimfahmi.foorballapps.vo.Team
 
 /*
  * Created by Rifqi Mulya Fahmi on 21/11/18.
@@ -19,9 +20,12 @@ import com.rifqimfahmi.foorballapps.vo.Resource
 class MatchesViewModel(context: Application, sportRepository: SportRepository) : AndroidViewModel(context) {
 
     // LiveData for league categories
-    private val filterLeagueId = MutableLiveData<String>()
+    private val matchFilterId = MutableLiveData<String>()
+    private val teamFilterId = MutableLiveData<String>()
 
-    val nextMatches: LiveData<Resource<List<Match>>> = Transformations.switchMap(filterLeagueId) { leagueId ->
+    val context: Context = context.applicationContext // application Context to avoid leaks
+
+    val nextMatches: LiveData<Resource<List<Match>>> = Transformations.switchMap(matchFilterId) { leagueId ->
         if (leagueId.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {
@@ -29,21 +33,39 @@ class MatchesViewModel(context: Application, sportRepository: SportRepository) :
         }
     }
 
-    val prevMatch: LiveData<Resource<List<Match>>> = Transformations.switchMap(filterLeagueId) { leagueId ->
+    val prevMatch: LiveData<Resource<List<Match>>> = Transformations.switchMap(matchFilterId) { leagueId ->
         if (leagueId.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {
-            sportRepository.lastMatch(leagueId)
+            sportRepository.prevMatches(leagueId)
         }
     }
 
-    val context: Context = context.applicationContext // application Context to avoid leaks
+    val teams: LiveData<Resource<List<Team>>> = Transformations.switchMap(teamFilterId) { leagueId ->
+        if (leagueId.isNullOrBlank()) {
+            AbsentLiveData.create()
+        } else {
+            sportRepository.teams(leagueId)
+        }
+    }
 
-    fun setFilterBy(position: Int) {
-        filterLeagueId.value = context.getLeaguesId(position)
+    fun setMatchesFilterBy(position: Int) {
+        matchFilterId.value = context.getLeaguesId(position)
+    }
+
+    fun setTeamFilterBy(position: Int) {
+        teamFilterId.value = context.getLeaguesId(position)
     }
 
     fun refreshMatches() {
-        filterLeagueId.postValue(filterLeagueId.value)
+        matchFilterId.value?.let {
+            matchFilterId.value = it
+        }
+    }
+
+    fun refreshTeams() {
+        teamFilterId.value?.let {
+            teamFilterId.value = it
+        }
     }
 }

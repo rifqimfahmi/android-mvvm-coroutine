@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.data.source.SportRepository
@@ -19,8 +18,6 @@ import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
-import android.text.method.TextKeyListener.clear
-import com.rifqimfahmi.foorballapps.util.AbsentLiveData
 
 
 /*
@@ -34,8 +31,10 @@ class MatchesViewModelTest {
     @JvmField
     val instantExecutor = InstantTaskExecutorRule()
 
-    @Mock private lateinit var repository: SportRepository
-    @Mock private lateinit var context: Application
+    @Mock
+    private lateinit var repository: SportRepository
+    @Mock
+    private lateinit var context: Application
     private lateinit var viewModel: MatchesViewModel
 
     private val testArrayLeagueId = arrayOf("5341", "4329")
@@ -51,6 +50,8 @@ class MatchesViewModelTest {
 
     private fun setupContext() {
         `when`<Context>(context.applicationContext).thenReturn(context)
+        `when`(context.resources).thenReturn(mock(Resources::class.java))
+        `when`(context.resources.getStringArray(R.array.leagues_id)).thenReturn(testArrayLeagueId)
     }
 
     @Test
@@ -59,10 +60,25 @@ class MatchesViewModelTest {
         viewModel.nextMatches.observeForever(matchesObs)
         viewModel.prevMatch.observeForever(matchesObs)
 
-        `when`(context.resources).thenReturn(mock(Resources::class.java))
-        `when`(context.resources.getStringArray(R.array.leagues_id)).thenReturn(testArrayLeagueId)
-
-        viewModel.setFilterBy(0)
+        viewModel.setMatchesFilterBy(0)
         verify(repository).nextMatches(testLeagueId)
+        verify(repository).prevMatches(testLeagueId)
+    }
+
+    @Test
+    fun refresh() {
+        viewModel.refreshMatches()
+        verifyNoMoreInteractions(repository)
+
+        viewModel.setMatchesFilterBy(0)
+        viewModel.refreshMatches()
+        verifyNoMoreInteractions(repository)
+
+        val matchesObs = mock<Observer<Resource<List<Match>>>>()
+        viewModel.nextMatches.observeForever(matchesObs)
+        viewModel.prevMatch.observeForever(matchesObs)
+
+        verify(repository).nextMatches(testLeagueId)
+        verify(repository).prevMatches(testLeagueId)
     }
 }

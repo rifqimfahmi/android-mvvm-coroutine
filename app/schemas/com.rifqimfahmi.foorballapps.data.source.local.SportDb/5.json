@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "a6851f2b354c46f20c4bcf565a76fbf8",
+    "version": 5,
+    "identityHash": "0618d7a545b3effe4d41f5fe23c98381",
     "entities": [
       {
         "tableName": "matches",
@@ -338,19 +338,13 @@
       },
       {
         "tableName": "teams",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `idLeague` TEXT, `idSoccerXML` TEXT, `idTeam` TEXT, `intFormedYear` TEXT, `intLoved` TEXT, `intStadiumCapacity` TEXT, `strAlternate` TEXT, `strCountry` TEXT, `strDescriptionCN` TEXT, `strDescriptionDE` TEXT, `strDescriptionEN` TEXT, `strDescriptionES` TEXT, `strDescriptionFR` TEXT, `strDescriptionHU` TEXT, `strDescriptionIL` TEXT, `strDescriptionIT` TEXT, `strDescriptionJP` TEXT, `strDescriptionNL` TEXT, `strDescriptionNO` TEXT, `strDescriptionPL` TEXT, `strDescriptionPT` TEXT, `strDescriptionRU` TEXT, `strDescriptionSE` TEXT, `strDivision` TEXT, `strFacebook` TEXT, `strGender` TEXT, `strInstagram` TEXT, `strKeywords` TEXT, `strLeague` TEXT, `strLocked` TEXT, `strManager` TEXT, `strRSS` TEXT, `strSport` TEXT, `strStadium` TEXT, `strStadiumDescription` TEXT, `strStadiumLocation` TEXT, `strStadiumThumb` TEXT, `strTeam` TEXT, `strTeamBadge` TEXT, `strTeamBanner` TEXT, `strTeamFanart1` TEXT, `strTeamFanart2` TEXT, `strTeamFanart3` TEXT, `strTeamFanart4` TEXT, `strTeamJersey` TEXT, `strTeamLogo` TEXT, `strTeamShort` TEXT, `strTwitter` TEXT, `strWebsite` TEXT, `strYoutube` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idLeague` TEXT NOT NULL, `idSoccerXML` TEXT, `idTeam` TEXT NOT NULL, `intFormedYear` TEXT, `intLoved` TEXT, `intStadiumCapacity` TEXT, `strAlternate` TEXT, `strCountry` TEXT, `strDescriptionCN` TEXT, `strDescriptionDE` TEXT, `strDescriptionEN` TEXT, `strDescriptionES` TEXT, `strDescriptionFR` TEXT, `strDescriptionHU` TEXT, `strDescriptionIL` TEXT, `strDescriptionIT` TEXT, `strDescriptionJP` TEXT, `strDescriptionNL` TEXT, `strDescriptionNO` TEXT, `strDescriptionPL` TEXT, `strDescriptionPT` TEXT, `strDescriptionRU` TEXT, `strDescriptionSE` TEXT, `strDivision` TEXT, `strFacebook` TEXT, `strGender` TEXT, `strInstagram` TEXT, `strKeywords` TEXT, `strLeague` TEXT, `strLocked` TEXT, `strManager` TEXT, `strRSS` TEXT, `strSport` TEXT, `strStadium` TEXT, `strStadiumDescription` TEXT, `strStadiumLocation` TEXT, `strStadiumThumb` TEXT, `strTeam` TEXT, `strTeamBadge` TEXT, `strTeamBanner` TEXT, `strTeamFanart1` TEXT, `strTeamFanart2` TEXT, `strTeamFanart3` TEXT, `strTeamFanart4` TEXT, `strTeamJersey` TEXT, `strTeamLogo` TEXT, `strTeamShort` TEXT, `strTwitter` TEXT, `strWebsite` TEXT, `strYoutube` TEXT, PRIMARY KEY(`idLeague`, `idTeam`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
           {
             "fieldPath": "idLeague",
             "columnName": "idLeague",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "idSoccerXML",
@@ -362,7 +356,7 @@
             "fieldPath": "idTeam",
             "columnName": "idTeam",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "intFormedYear",
@@ -649,9 +643,10 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "idLeague",
+            "idTeam"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -660,7 +655,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a6851f2b354c46f20c4bcf565a76fbf8\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0618d7a545b3effe4d41f5fe23c98381\")"
     ]
   }
 }
