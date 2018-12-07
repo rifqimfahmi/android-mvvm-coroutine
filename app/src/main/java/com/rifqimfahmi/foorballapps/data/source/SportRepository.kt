@@ -9,7 +9,6 @@ import com.rifqimfahmi.foorballapps.data.source.remote.SportService
 import com.rifqimfahmi.foorballapps.data.source.remote.json.SchedulesResponse
 import com.rifqimfahmi.foorballapps.data.source.remote.json.TeamsResponse
 import com.rifqimfahmi.foorballapps.features.matches.MatchesListFragment
-import com.rifqimfahmi.foorballapps.testing.OpenClass
 import com.rifqimfahmi.foorballapps.testing.OpenForTesting
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
@@ -30,15 +29,17 @@ class SportRepository(
         return object : NetworkBoundResource<List<Match>, SchedulesResponse>() {
             override fun saveCallResult(item: SchedulesResponse) {
                 val matches = item.events
-                matches?.forEach { match ->
-                    match?.let {
-                        match.matchType = MatchesListFragment.TYPE_NEXT_MATCH
+                matches?.let { matchesData ->
+                    matchesData.forEach { match ->
+                        match?.let {
+                            match.matchType = MatchesListFragment.TYPE_NEXT_MATCH
+                        }
                     }
-                }
 
-                db.runInTransaction {
-                    sportDao.deleteNextMatches(leagueId)
-                    sportDao.saveMatches(matches)
+                    db.runInTransaction {
+                        sportDao.deleteNextMatches(leagueId)
+                        sportDao.saveMatches(matchesData)
+                    }
                 }
             }
 
@@ -56,15 +57,17 @@ class SportRepository(
 
             override fun saveCallResult(item: SchedulesResponse) {
                 val matches = item.events
-                matches?.forEach { match ->
-                    match?.let {
-                        match.matchType = MatchesListFragment.TYPE_PREV_MATCH
+                matches?.let { matchesData ->
+                    matchesData.forEach { match ->
+                        match?.let {
+                            match.matchType = MatchesListFragment.TYPE_PREV_MATCH
+                        }
                     }
-                }
 
-                db.runInTransaction {
-                    sportDao.deletePrevMatches(leagueId)
-                    sportDao.saveMatches(matches)
+                    db.runInTransaction {
+                        sportDao.deletePrevMatches(leagueId)
+                        sportDao.saveMatches(matchesData)
+                    }
                 }
             }
 
@@ -93,6 +96,42 @@ class SportRepository(
             override fun shouldFetch(data: List<Team>?): Boolean = true
 
             override fun loadFromDb(): LiveData<List<Team>> = sportDao.getTeams(leagueId)
+
+        }.asLiveData()
+    }
+
+    fun getTeam(teamId: String): LiveData<Resource<Team>> {
+        return object : NetworkBoundResource<Team, TeamsResponse>() {
+            override fun saveCallResult(item: TeamsResponse) {
+                item.teams?.let {
+                    db.runInTransaction {
+                        sportDao.saveTeams(it)
+                    }
+                }
+            }
+
+            override fun createCall(): LiveData<ApiResponse<TeamsResponse>> = sportService.getTeam(teamId)
+
+            override fun shouldFetch(data: Team?): Boolean = data == null
+
+            override fun loadFromDb(): LiveData<Team> = sportDao.getTeam(teamId)
+
+        }.asLiveData()
+    }
+
+    fun getEventDetail(matchId: String): LiveData<Resource<Match>> {
+        return object : NetworkBoundResource<Match, SchedulesResponse>() {
+            override fun saveCallResult(item: SchedulesResponse) {
+                item.events?.let{ matches ->
+                    sportDao.saveMatches(matches)
+                }
+            }
+
+            override fun createCall(): LiveData<ApiResponse<SchedulesResponse>> = sportService.getMatchDetail(matchId)
+
+            override fun shouldFetch(data: Match?): Boolean = true
+
+            override fun loadFromDb(): LiveData<Match> = sportDao.getMatchDetail(matchId)
 
         }.asLiveData()
     }

@@ -16,7 +16,7 @@ data class Team (
     @Json(name = "idSoccerXML")
     val idSoccerXML: String?, // 3
     @Json(name = "idTeam")
-    val idTeam: String, // 133599
+    var idTeam: String, // 133599
     @Json(name = "intFormedYear")
     val intFormedYear: String?, // 1877
     @Json(name = "intLoved")

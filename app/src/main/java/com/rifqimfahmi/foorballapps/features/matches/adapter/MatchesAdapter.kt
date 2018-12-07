@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.item_match.view.*
 class MatchesAdapter(ctx: Context?, resource: Resource<List<Match>>, private val clickListener: (Match) -> Unit) :
     BaseRVAdapter<Match>(ctx, resource) {
 
-    override var errorMessage = "Failed to load matches"
+    override var errorMessage = "Failed to load events"
 
     override fun createDataViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
         return MatchItem(LayoutInflater.from(parent.context).inflate(R.layout.item_match, parent, false))

@@ -10,14 +10,14 @@ import java.text.SimpleDateFormat
  * Created by Rifqi Mulya Fahmi on 26/11/18.
  */
 
-@Entity(tableName = "matches")
+@Entity(tableName = "matches", primaryKeys = ["idEvent"])
 data class Match (
     @Json(name = "dateEvent")
     val dateEvent: String?, // 2018-10-22
     @Json(name = "idAwayTeam")
     val idAwayTeam: String?, // 133626
     @Json(name = "idEvent")
-    val idEvent: String?, // 576558
+    val idEvent: String, // 576558
     @Json(name = "idHomeTeam")
     val idHomeTeam: String?, // 133604
     @Json(name = "idLeague")
@@ -115,9 +115,6 @@ data class Match (
     @Json(name = "strTime")
     val strTime: String? // 19:00:00+00:00
 ) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Long? = null
-
     var matchType: String? = null
 
     @SuppressLint("SimpleDateFormat")
@@ -130,6 +127,10 @@ data class Match (
             return dateFormat.format(date)
         }
         return ""
+    }
+
+    fun format(strHomeGoalDetails: String?): String {
+        return strHomeGoalDetails?.replace(";\\s?".toRegex(), "\n") ?: "-"
     }
 
 }

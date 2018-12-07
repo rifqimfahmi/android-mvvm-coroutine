@@ -32,8 +32,14 @@ interface SportDao {
     @Query("SELECT * FROM teams WHERE idLeague = :leagueId")
     fun getTeams(leagueId: String): LiveData<List<Team>>
 
-    @Insert
-    fun saveMatches(matches: List<Match?>?)
+    @Query("SELECT * FROM teams WHERE idTeam = :teamId")
+    fun getTeam(teamId: String): LiveData<Team>
+
+    @Query("SELECT * FROM matches WHERE idEvent = :matchId")
+    fun getMatchDetail(matchId: String): LiveData<Match>
+
+    @Insert(onConflict = REPLACE)
+    fun saveMatches(matches: List<Match?>)
 
     @Insert(onConflict = REPLACE)
     fun saveTeams(it: List<Team?>)

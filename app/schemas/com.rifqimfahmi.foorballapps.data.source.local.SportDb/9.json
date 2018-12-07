@@ -1,13 +1,19 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 2,
-    "identityHash": "6c9b8e7d9ed4b91d3fe6dc48b12b432d",
+    "version": 9,
+    "identityHash": "0618d7a545b3effe4d41f5fe23c98381",
     "entities": [
       {
         "tableName": "matches",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`matchType` TEXT, `dateEvent` TEXT, `idAwayTeam` TEXT, `idEvent` TEXT NOT NULL, `idHomeTeam` TEXT, `idLeague` TEXT, `idSoccerXML` TEXT, `intAwayScore` TEXT, `intAwayShots` TEXT, `intHomeScore` TEXT, `intHomeShots` TEXT, `intRound` TEXT, `intSpectators` TEXT, `strAwayFormation` TEXT, `strAwayGoalDetails` TEXT, `strAwayLineupDefense` TEXT, `strAwayLineupForward` TEXT, `strAwayLineupGoalkeeper` TEXT, `strAwayLineupMidfield` TEXT, `strAwayLineupSubstitutes` TEXT, `strAwayRedCards` TEXT, `strAwayTeam` TEXT, `strAwayYellowCards` TEXT, `strBanner` TEXT, `strCircuit` TEXT, `strCity` TEXT, `strCountry` TEXT, `strDate` TEXT, `strDescriptionEN` TEXT, `strEvent` TEXT, `strFanart` TEXT, `strFilename` TEXT, `strHomeFormation` TEXT, `strHomeGoalDetails` TEXT, `strHomeLineupDefense` TEXT, `strHomeLineupForward` TEXT, `strHomeLineupGoalkeeper` TEXT, `strHomeLineupMidfield` TEXT, `strHomeLineupSubstitutes` TEXT, `strHomeRedCards` TEXT, `strHomeTeam` TEXT, `strHomeYellowCards` TEXT, `strLeague` TEXT, `strLocked` TEXT, `strMap` TEXT, `strPoster` TEXT, `strResult` TEXT, `strSeason` TEXT, `strSport` TEXT, `strTVStation` TEXT, `strThumb` TEXT, `strTime` TEXT, PRIMARY KEY(`idEvent`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `matchType` TEXT, `dateEvent` TEXT, `idAwayTeam` TEXT, `idEvent` TEXT, `idHomeTeam` TEXT, `idLeague` TEXT, `idSoccerXML` TEXT, `intAwayScore` TEXT, `intAwayShots` TEXT, `intHomeScore` TEXT, `intHomeShots` TEXT, `intRound` TEXT, `intSpectators` TEXT, `strAwayFormation` TEXT, `strAwayGoalDetails` TEXT, `strAwayLineupDefense` TEXT, `strAwayLineupForward` TEXT, `strAwayLineupGoalkeeper` TEXT, `strAwayLineupMidfield` TEXT, `strAwayLineupSubstitutes` TEXT, `strAwayRedCards` TEXT, `strAwayTeam` TEXT, `strAwayYellowCards` TEXT, `strBanner` TEXT, `strCircuit` TEXT, `strCity` TEXT, `strCountry` TEXT, `strDate` TEXT, `strDescriptionEN` TEXT, `strEvent` TEXT, `strFanart` TEXT, `strFilename` TEXT, `strHomeFormation` TEXT, `strHomeGoalDetails` TEXT, `strHomeLineupDefense` TEXT, `strHomeLineupForward` TEXT, `strHomeLineupGoalkeeper` TEXT, `strHomeLineupMidfield` TEXT, `strHomeLineupSubstitutes` TEXT, `strHomeRedCards` TEXT, `strHomeTeam` TEXT, `strHomeYellowCards` TEXT, `strLeague` TEXT, `strLocked` TEXT, `strMap` TEXT, `strPoster` TEXT, `strResult` TEXT, `strSeason` TEXT, `strSport` TEXT, `strTVStation` TEXT, `strThumb` TEXT, `strTime` TEXT)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
           {
             "fieldPath": "matchType",
             "columnName": "matchType",
@@ -30,7 +36,7 @@
             "fieldPath": "idEvent",
             "columnName": "idEvent",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "idHomeTeam",
@@ -323,9 +329,9 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "idEvent"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [],
         "foreignKeys": []
@@ -649,7 +655,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6c9b8e7d9ed4b91d3fe6dc48b12b432d\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0618d7a545b3effe4d41f5fe23c98381\")"
     ]
   }
 }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rifqimfahmi.foorballapps.R
+import com.rifqimfahmi.foorballapps.features.matchdetail.MatchDetailActivity
 import com.rifqimfahmi.foorballapps.features.matches.adapter.MatchesAdapter
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
@@ -37,7 +38,10 @@ class MatchesListFragment : Fragment() {
         srl_list.setOnRefreshListener { viewModel.refreshMatches() }
         rv_list.layoutManager = LinearLayoutManager(context)
         rv_list.adapter = MatchesAdapter(context, Resource.loading(null)) {
-
+            context?.startActivity(MatchDetailActivity.getStartIntent(context!!,
+                it.idEvent,
+                it.idHomeTeam,
+                it.idAwayTeam))
         }
 
         when (getType()) {

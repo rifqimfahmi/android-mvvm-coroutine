@@ -2,18 +2,12 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "a63861f677a2a007095252c1db268587",
+    "identityHash": "6c9b8e7d9ed4b91d3fe6dc48b12b432d",
     "entities": [
       {
         "tableName": "matches",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `matchType` TEXT, `dateEvent` TEXT, `idAwayTeam` TEXT, `idEvent` TEXT, `idHomeTeam` TEXT, `idLeague` TEXT, `idSoccerXML` TEXT, `intAwayScore` TEXT, `intAwayShots` TEXT, `intHomeScore` TEXT, `intHomeShots` TEXT, `intRound` TEXT, `intSpectators` TEXT, `strAwayFormation` TEXT, `strAwayGoalDetails` TEXT, `strAwayLineupDefense` TEXT, `strAwayLineupForward` TEXT, `strAwayLineupGoalkeeper` TEXT, `strAwayLineupMidfield` TEXT, `strAwayLineupSubstitutes` TEXT, `strAwayRedCards` TEXT, `strAwayTeam` TEXT, `strAwayYellowCards` TEXT, `strBanner` TEXT, `strCircuit` TEXT, `strCity` TEXT, `strCountry` TEXT, `strDate` TEXT, `strDescriptionEN` TEXT, `strEvent` TEXT, `strFanart` TEXT, `strFilename` TEXT, `strHomeFormation` TEXT, `strHomeGoalDetails` TEXT, `strHomeLineupDefense` TEXT, `strHomeLineupForward` TEXT, `strHomeLineupGoalkeeper` TEXT, `strHomeLineupMidfield` TEXT, `strHomeLineupSubstitutes` TEXT, `strHomeRedCards` TEXT, `strHomeTeam` TEXT, `strHomeYellowCards` TEXT, `strLeague` TEXT, `strLocked` TEXT, `strMap` TEXT, `strPoster` TEXT, `strResult` TEXT, `strSeason` TEXT, `strSport` TEXT, `strTVStation` TEXT, `strThumb` TEXT, `strTime` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`matchType` TEXT, `dateEvent` TEXT, `idAwayTeam` TEXT, `idEvent` TEXT NOT NULL, `idHomeTeam` TEXT, `idLeague` TEXT, `idSoccerXML` TEXT, `intAwayScore` TEXT, `intAwayShots` TEXT, `intHomeScore` TEXT, `intHomeShots` TEXT, `intRound` TEXT, `intSpectators` TEXT, `strAwayFormation` TEXT, `strAwayGoalDetails` TEXT, `strAwayLineupDefense` TEXT, `strAwayLineupForward` TEXT, `strAwayLineupGoalkeeper` TEXT, `strAwayLineupMidfield` TEXT, `strAwayLineupSubstitutes` TEXT, `strAwayRedCards` TEXT, `strAwayTeam` TEXT, `strAwayYellowCards` TEXT, `strBanner` TEXT, `strCircuit` TEXT, `strCity` TEXT, `strCountry` TEXT, `strDate` TEXT, `strDescriptionEN` TEXT, `strEvent` TEXT, `strFanart` TEXT, `strFilename` TEXT, `strHomeFormation` TEXT, `strHomeGoalDetails` TEXT, `strHomeLineupDefense` TEXT, `strHomeLineupForward` TEXT, `strHomeLineupGoalkeeper` TEXT, `strHomeLineupMidfield` TEXT, `strHomeLineupSubstitutes` TEXT, `strHomeRedCards` TEXT, `strHomeTeam` TEXT, `strHomeYellowCards` TEXT, `strLeague` TEXT, `strLocked` TEXT, `strMap` TEXT, `strPoster` TEXT, `strResult` TEXT, `strSeason` TEXT, `strSport` TEXT, `strTVStation` TEXT, `strThumb` TEXT, `strTime` TEXT, PRIMARY KEY(`idEvent`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
           {
             "fieldPath": "matchType",
             "columnName": "matchType",
@@ -36,7 +30,7 @@
             "fieldPath": "idEvent",
             "columnName": "idEvent",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "idHomeTeam",
@@ -329,16 +323,16 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "idEvent"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "teams",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idLeague` TEXT NOT NULL, `idSoccerXML` TEXT, `idTeam` TEXT, `intFormedYear` TEXT, `intLoved` TEXT, `intStadiumCapacity` TEXT, `strAlternate` TEXT, `strCountry` TEXT, `strDescriptionCN` TEXT, `strDescriptionDE` TEXT, `strDescriptionEN` TEXT, `strDescriptionES` TEXT, `strDescriptionFR` TEXT, `strDescriptionHU` TEXT, `strDescriptionIL` TEXT, `strDescriptionIT` TEXT, `strDescriptionJP` TEXT, `strDescriptionNL` TEXT, `strDescriptionNO` TEXT, `strDescriptionPL` TEXT, `strDescriptionPT` TEXT, `strDescriptionRU` TEXT, `strDescriptionSE` TEXT, `strDivision` TEXT, `strFacebook` TEXT, `strGender` TEXT, `strInstagram` TEXT, `strKeywords` TEXT, `strLeague` TEXT, `strLocked` TEXT, `strManager` TEXT, `strRSS` TEXT, `strSport` TEXT, `strStadium` TEXT, `strStadiumDescription` TEXT, `strStadiumLocation` TEXT, `strStadiumThumb` TEXT, `strTeam` TEXT, `strTeamBadge` TEXT, `strTeamBanner` TEXT, `strTeamFanart1` TEXT, `strTeamFanart2` TEXT, `strTeamFanart3` TEXT, `strTeamFanart4` TEXT, `strTeamJersey` TEXT, `strTeamLogo` TEXT, `strTeamShort` TEXT, `strTwitter` TEXT, `strWebsite` TEXT, `strYoutube` TEXT, PRIMARY KEY(`idLeague`, `idTeam`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idLeague` TEXT NOT NULL, `idSoccerXML` TEXT, `idTeam` TEXT NOT NULL, `intFormedYear` TEXT, `intLoved` TEXT, `intStadiumCapacity` TEXT, `strAlternate` TEXT, `strCountry` TEXT, `strDescriptionCN` TEXT, `strDescriptionDE` TEXT, `strDescriptionEN` TEXT, `strDescriptionES` TEXT, `strDescriptionFR` TEXT, `strDescriptionHU` TEXT, `strDescriptionIL` TEXT, `strDescriptionIT` TEXT, `strDescriptionJP` TEXT, `strDescriptionNL` TEXT, `strDescriptionNO` TEXT, `strDescriptionPL` TEXT, `strDescriptionPT` TEXT, `strDescriptionRU` TEXT, `strDescriptionSE` TEXT, `strDivision` TEXT, `strFacebook` TEXT, `strGender` TEXT, `strInstagram` TEXT, `strKeywords` TEXT, `strLeague` TEXT, `strLocked` TEXT, `strManager` TEXT, `strRSS` TEXT, `strSport` TEXT, `strStadium` TEXT, `strStadiumDescription` TEXT, `strStadiumLocation` TEXT, `strStadiumThumb` TEXT, `strTeam` TEXT, `strTeamBadge` TEXT, `strTeamBanner` TEXT, `strTeamFanart1` TEXT, `strTeamFanart2` TEXT, `strTeamFanart3` TEXT, `strTeamFanart4` TEXT, `strTeamJersey` TEXT, `strTeamLogo` TEXT, `strTeamShort` TEXT, `strTwitter` TEXT, `strWebsite` TEXT, `strYoutube` TEXT, PRIMARY KEY(`idLeague`, `idTeam`))",
         "fields": [
           {
             "fieldPath": "idLeague",
@@ -356,7 +350,7 @@
             "fieldPath": "idTeam",
             "columnName": "idTeam",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "intFormedYear",
@@ -655,7 +649,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a63861f677a2a007095252c1db268587\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6c9b8e7d9ed4b91d3fe6dc48b12b432d\")"
     ]
   }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.rifqimfahmi.foorballapps.data.source.SportRepository
 import com.rifqimfahmi.foorballapps.data.source.local.SportDb
 import com.rifqimfahmi.foorballapps.data.source.remote.SportServiceFactory
+import com.rifqimfahmi.foorballapps.features.matchdetail.MatchViewModel
 import com.rifqimfahmi.foorballapps.features.matches.MatchesViewModel
 
 /*
@@ -21,6 +22,8 @@ class ViewModelFactory private constructor(
             when {
                 isAssignableFrom(MatchesViewModel::class.java) ->
                     MatchesViewModel(application, sportRepository)
+                isAssignableFrom(MatchViewModel::class.java) ->
+                    MatchViewModel(application, sportRepository)
                 else ->
                     error("Invalid View Model class")
             }
