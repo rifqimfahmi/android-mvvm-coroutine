@@ -123,13 +123,23 @@ class SportRepository(
         return object : NetworkBoundResource<Match, SchedulesResponse>() {
             override fun saveCallResult(item: SchedulesResponse) {
                 item.events?.let{ matches ->
+                    matches.forEach { match ->
+                        match?.let {
+                            if (match.isNextMatch()) {
+                                match.matchType = MatchesListFragment.TYPE_NEXT_MATCH
+                            } else {
+                                match.matchType = MatchesListFragment.TYPE_PREV_MATCH
+                            }
+                        }
+                    }
+
                     sportDao.saveMatches(matches)
                 }
             }
 
             override fun createCall(): LiveData<ApiResponse<SchedulesResponse>> = sportService.getMatchDetail(matchId)
 
-            override fun shouldFetch(data: Match?): Boolean = true
+            override fun shouldFetch(data: Match?): Boolean = data == null
 
             override fun loadFromDb(): LiveData<Match> = sportDao.getMatchDetail(matchId)
 

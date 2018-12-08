@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import java.text.SimpleDateFormat
+import java.util.*
 
 /*
  * Created by Rifqi Mulya Fahmi on 26/11/18.
@@ -127,6 +128,16 @@ data class Match (
             return dateFormat.format(date)
         }
         return ""
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun isNextMatch() : Boolean {
+        dateEvent?.let {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+            val date: Date = dateFormat.parse(it)
+            return date.after(Date())
+        }
+        return false
     }
 
     fun format(strHomeGoalDetails: String?): String {
