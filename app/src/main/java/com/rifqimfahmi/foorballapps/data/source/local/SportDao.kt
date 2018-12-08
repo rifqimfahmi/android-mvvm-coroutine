@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.rifqimfahmi.foorballapps.features.matches.MatchesListFragment
 import com.rifqimfahmi.foorballapps.vo.Match
+import com.rifqimfahmi.foorballapps.vo.Player
 import com.rifqimfahmi.foorballapps.vo.Team
 
 /*
@@ -38,11 +39,17 @@ interface SportDao {
     @Query("SELECT * FROM matches WHERE idEvent = :matchId")
     fun getMatchDetail(matchId: String): LiveData<Match>
 
+    @Query("SELECT * FROM players WHERE idTeam = :teamId")
+    fun getPlayers(teamId: String): LiveData<List<Player>>
+
     @Insert(onConflict = REPLACE)
     fun saveMatches(matches: List<Match?>)
 
     @Insert(onConflict = REPLACE)
     fun saveTeams(it: List<Team?>)
+
+    @Insert(onConflict = REPLACE)
+    fun savePlayers(players: List<Player?>)
 
 
 }

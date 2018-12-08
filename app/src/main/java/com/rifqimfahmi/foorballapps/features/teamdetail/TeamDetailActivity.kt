@@ -29,17 +29,14 @@ class TeamDetailActivity : AppCompatActivity() {
     }
 
     private fun setupData() {
-        viewModel = obtainViewModel()
-        with(viewModel) {
+        viewModel = obtainViewModel().apply {
             initData(teamId)
-            team.observe(this@TeamDetailActivity, Observer { res ->
-                updateTeamDetail(res)
-            })
+            team.observe(this@TeamDetailActivity, Observer { res -> updateTeamDetail(res) })
         }
     }
 
     private fun setupPager() {
-        vpTeamDetail.adapter = TeamDetailPagerAdapter(supportFragmentManager)
+        vpTeamDetail.adapter = TeamDetailPagerAdapter(supportFragmentManager, teamId)
         tabTeam.setupWithViewPager(vpTeamDetail)
     }
 

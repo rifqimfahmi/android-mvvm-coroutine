@@ -10,12 +10,12 @@ import com.rifqimfahmi.foorballapps.features.teamdetail.TeamPlayerFragment
  * Created by Rifqi Mulya Fahmi on 08/12/18.
  */
 
-class TeamDetailPagerAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
+class TeamDetailPagerAdapter(fm: FragmentManager?, private val teamId: String) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> TeamDescFragment.newInstance()
-            1 -> TeamPlayerFragment.newInstance()
+            1 -> TeamPlayerFragment.newInstance(teamId)
             else -> error("Can't have more than 2 fragment on team detail")
         }
     }

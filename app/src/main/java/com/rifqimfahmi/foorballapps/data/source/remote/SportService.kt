@@ -1,6 +1,7 @@
 package com.rifqimfahmi.foorballapps.data.source.remote
 
 import androidx.lifecycle.LiveData
+import com.rifqimfahmi.foorballapps.data.source.remote.json.PlayersResponse
 import com.rifqimfahmi.foorballapps.data.source.remote.json.SchedulesResponse
 import com.rifqimfahmi.foorballapps.data.source.remote.json.TeamsResponse
 import kotlinx.coroutines.Deferred
@@ -21,6 +22,9 @@ interface SportService {
 
     @GET("lookup_all_teams.php")
     fun getTeams(@Query("id") leagueId: String) : LiveData<ApiResponse<TeamsResponse>>
+
+    @GET("lookup_all_players.php")
+    fun getPlayers(@Query("id") teamId: String) : LiveData<ApiResponse<PlayersResponse>>
 
     @GET("lookupteam.php")
     fun getTeam(@Query("id") teamId: String) : LiveData<ApiResponse<TeamsResponse>>

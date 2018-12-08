@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.rifqimfahmi.foorballapps.data.source.SportRepository
 import com.rifqimfahmi.foorballapps.util.AbsentLiveData
+import com.rifqimfahmi.foorballapps.vo.Player
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.rifqimfahmi.foorballapps.vo.Team
 
@@ -23,6 +24,14 @@ class TeamViewModel(context: Application, sportRepository: SportRepository) : An
             AbsentLiveData.create()
         } else {
             sportRepository.getTeam(id)
+        }
+    }
+
+    val players: LiveData<Resource<List<Player>>> = Transformations.switchMap(teamId) { id ->
+        if (id.isNullOrBlank()) {
+            AbsentLiveData.create()
+        } else {
+            sportRepository.getPlayers(id)
         }
     }
 
