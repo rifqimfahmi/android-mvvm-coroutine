@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.features.matches.adapter.TeamAdapter
+import com.rifqimfahmi.foorballapps.features.teamdetail.TeamDetailActivity
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.rifqimfahmi.foorballapps.vo.Status
 import kotlinx.android.synthetic.main.fragment_teams.view.*
@@ -40,7 +41,7 @@ class TeamsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         srl_list.setOnRefreshListener { viewModel.refreshTeams() }
         rv_list.layoutManager = LinearLayoutManager(context)
         rv_list.adapter = TeamAdapter(context, Resource.loading(null)) {
-
+            startActivity(TeamDetailActivity.getStartIntent(context, it.idTeam))
         }
         viewModel.teams.observe(this, Observer { data ->
             (rv_list.adapter as TeamAdapter).submitData(data)

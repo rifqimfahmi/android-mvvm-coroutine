@@ -8,6 +8,7 @@ import com.rifqimfahmi.foorballapps.data.source.local.SportDb
 import com.rifqimfahmi.foorballapps.data.source.remote.SportServiceFactory
 import com.rifqimfahmi.foorballapps.features.matchdetail.MatchViewModel
 import com.rifqimfahmi.foorballapps.features.matches.MatchesViewModel
+import com.rifqimfahmi.foorballapps.features.teamdetail.TeamViewModel
 
 /*
  * Created by Rifqi Mulya Fahmi on 21/11/18.
@@ -24,6 +25,8 @@ class ViewModelFactory private constructor(
                     MatchesViewModel(application, sportRepository)
                 isAssignableFrom(MatchViewModel::class.java) ->
                     MatchViewModel(application, sportRepository)
+                isAssignableFrom(TeamViewModel::class.java) ->
+                    TeamViewModel(application, sportRepository)
                 else ->
                     error("Invalid View Model class")
             }

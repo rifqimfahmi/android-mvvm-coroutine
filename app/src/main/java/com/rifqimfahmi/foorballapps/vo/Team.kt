@@ -113,4 +113,7 @@ data class Team (
     val strYoutube: String?
 ) {
 
+    fun getFormedYear(): String {
+        return "Est. $intFormedYear"
+    }
 }

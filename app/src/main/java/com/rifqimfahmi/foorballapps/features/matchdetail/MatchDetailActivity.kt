@@ -80,9 +80,9 @@ class MatchDetailActivity : AppCompatActivity() {
     private fun obtainViewModel(): MatchViewModel = obtainViewModel(MatchViewModel::class.java)
 
     companion object {
-        const val ARG_KEY_ID_EVENT = "arg_key_id_event"
-        const val ARG_KEY_ID_HOME_TEAM = "arg_key_id_home_team"
-        const val ARG_KEY_ID_AWAY_TEAM = "arg_key_id_away_team"
+        private const val ARG_KEY_ID_EVENT = "arg_key_id_event"
+        private const val ARG_KEY_ID_HOME_TEAM = "arg_key_id_home_team"
+        private const val ARG_KEY_ID_AWAY_TEAM = "arg_key_id_away_team"
 
         fun getStartIntent(context: Context, idEvent: String?, idHomeTeam: String?, idAwayTeam: String?): Intent {
             val intent = Intent(context, MatchDetailActivity::class.java)

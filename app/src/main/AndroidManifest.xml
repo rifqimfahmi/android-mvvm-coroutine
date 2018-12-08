@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".features.matchdetail.MatchDetailActivity"></activity>
+        <activity android:name=".features.matchdetail.MatchDetailActivity" />
+        <activity android:name=".features.teamdetail.TeamDetailActivity"></activity>
     </application>
 
 </manifest>
