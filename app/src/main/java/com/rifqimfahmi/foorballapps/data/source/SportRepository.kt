@@ -189,6 +189,17 @@ class SportRepository(
         }
     }
 
+    fun getFavoriteMatches(): LiveData<Resource<List<Match>>> {
+        val data = MediatorLiveData<Resource<List<Match>>>()
+        data.value = Resource.loading(null)
+        data.addSource(sportDao.getFavoriteMatches()) {
+            if (it != null) {
+                data.value = Resource.success(it)
+            }
+        }
+        return data
+    }
+
     companion object {
         private var INSTANCE: SportRepository? = null
 

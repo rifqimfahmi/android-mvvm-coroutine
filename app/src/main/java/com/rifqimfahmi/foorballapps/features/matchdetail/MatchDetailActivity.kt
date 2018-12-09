@@ -146,7 +146,7 @@ class MatchDetailActivity : AppCompatActivity() {
         private const val ARG_KEY_ID_HOME_TEAM = "arg_key_id_home_team"
         private const val ARG_KEY_ID_AWAY_TEAM = "arg_key_id_away_team"
 
-        fun getStartIntent(context: Context, idEvent: String?, idHomeTeam: String?, idAwayTeam: String?): Intent {
+        fun getStartIntent(context: Context?, idEvent: String?, idHomeTeam: String?, idAwayTeam: String?): Intent {
             val intent = Intent(context, MatchDetailActivity::class.java)
             intent.putExtra(ARG_KEY_ID_EVENT, idEvent)
             intent.putExtra(ARG_KEY_ID_HOME_TEAM, idHomeTeam)

@@ -38,10 +38,9 @@ class MatchesListFragment : Fragment() {
         srl_list.setOnRefreshListener { viewModel.refreshMatches() }
         rv_list.layoutManager = LinearLayoutManager(context)
         rv_list.adapter = MatchesAdapter(context, Resource.loading(null)) {
-            context?.startActivity(MatchDetailActivity.getStartIntent(context!!,
-                it.idEvent,
-                it.idHomeTeam,
-                it.idAwayTeam))
+            context?.startActivity(
+                MatchDetailActivity.getStartIntent(context, it.idEvent, it.idHomeTeam, it.idAwayTeam)
+            )
         }
 
         when (getType()) {

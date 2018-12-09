@@ -49,6 +49,9 @@ interface SportDao {
     @Query("DELETE FROM favorite_matches WHERE idMatch = :matchId")
     fun deleteFavorites(matchId: String)
 
+    @Query("SELECT * FROM matches INNER JOIN favorite_matches ON favorite_matches.idMatch = idEvent")
+    fun getFavoriteMatches(): LiveData<List<Match>>
+
     @Insert(onConflict = REPLACE)
     fun saveMatches(matches: List<Match?>)
 
@@ -60,7 +63,6 @@ interface SportDao {
 
     @Insert(onConflict = REPLACE)
     fun addToFavorite(favMatch: FavoriteMatch)
-
 
 
 }
