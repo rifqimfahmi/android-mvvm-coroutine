@@ -47,7 +47,7 @@ interface SportDao {
     fun isFavoriteTeam(teamId: String): LiveData<FavoriteCount>
 
     @Query("DELETE FROM favorite_matches WHERE idMatch = :matchId")
-    fun deleteFavorites(matchId: String)
+    fun deleteFavoriteMatch(matchId: String)
 
     @Query("DELETE FROM favorite_teams WHERE idTeam = :teamId")
     fun deleteFavoriteTeam(teamId: String)
@@ -65,7 +65,7 @@ interface SportDao {
     fun savePlayers(players: List<Player?>)
 
     @Insert(onConflict = REPLACE)
-    fun addToFavorite(favMatch: FavoriteMatch)
+    fun addToFavoriteMatch(favMatch: FavoriteMatch)
 
     @Insert(onConflict = REPLACE)
     fun addToFavoriteTeam(favoriteTeam: FavoriteTeam)

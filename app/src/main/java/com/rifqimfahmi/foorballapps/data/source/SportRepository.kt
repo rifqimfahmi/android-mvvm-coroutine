@@ -182,9 +182,9 @@ class SportRepository(
     fun toggleFavoriteMatch(matchId: String, isFavorite: Boolean) {
         GlobalScope.launch (Dispatchers.IO) {
             if (isFavorite) { // Remove from favorite
-                sportDao.deleteFavorites(matchId)
+                sportDao.deleteFavoriteMatch(matchId)
             } else { // Add to favorite
-                sportDao.addToFavorite(FavoriteMatch(matchId))
+                sportDao.addToFavoriteMatch(FavoriteMatch(matchId))
             }
         }
     }
