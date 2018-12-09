@@ -55,6 +55,9 @@ interface SportDao {
     @Query("SELECT * FROM matches INNER JOIN favorite_matches ON favorite_matches.idMatch = idEvent")
     fun getFavoriteMatches(): LiveData<List<Match>>
 
+    @Query("SELECT * FROM teams INNER JOIN favorite_teams ON favorite_teams.idTeam = teams.idTeam")
+    fun getFavoriteTeams(): LiveData<List<Team>>
+
     @Insert(onConflict = REPLACE)
     fun saveMatches(matches: List<Match?>)
 

@@ -200,6 +200,17 @@ class SportRepository(
         return data
     }
 
+    fun getFavoriteTeams(): LiveData<Resource<List<Team>>> {
+        val data = MediatorLiveData<Resource<List<Team>>>()
+        data.value = Resource.loading(null)
+        data.addSource(sportDao.getFavoriteTeams()) {
+            if (it != null) {
+                data.value = Resource.success(it)
+            }
+        }
+        return data
+    }
+
     fun isFavoriteTeam(teamId: String): LiveData<Boolean> {
         val isFavorite = MediatorLiveData<Boolean>()
         val favCount = sportDao.isFavoriteTeam(teamId)

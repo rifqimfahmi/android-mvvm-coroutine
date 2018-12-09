@@ -51,6 +51,8 @@ class MatchesViewModel(context: Application, sportRepository: SportRepository) :
 
     val favoriteMatches: LiveData<Resource<List<Match>>> = sportRepository.getFavoriteMatches()
 
+    val favoriteTeams: LiveData<Resource<List<Team>>> = sportRepository.getFavoriteTeams()
+
     fun setMatchesFilterBy(position: Int) {
         matchFilterId.value = context.getLeaguesId(position)
     }
