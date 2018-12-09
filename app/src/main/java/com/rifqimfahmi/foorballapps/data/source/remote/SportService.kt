@@ -32,6 +32,9 @@ interface SportService {
     @GET("lookupevent.php")
     fun getMatchDetail(@Query("id") matchId: String) : LiveData<ApiResponse<SchedulesResponse>>
 
+    @GET("lookupplayer.php")
+    fun getPlayer(@Query("id") playerId: String): LiveData<ApiResponse<PlayersResponse>>
+
 //    @GET("lookupteam.php/")
 //    fun lookupTeam(@Query("id") id: String) : LiveData<ApiResponse<TeamLookupResponse>>
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rifqimfahmi.foorballapps.R
+import com.rifqimfahmi.foorballapps.features.playerdetail.PlayerDetailActivity
 import com.rifqimfahmi.foorballapps.features.teamdetail.adapter.PlayerAdapter
 import com.rifqimfahmi.foorballapps.vo.Player
 import com.rifqimfahmi.foorballapps.vo.Resource
@@ -45,7 +46,7 @@ class TeamPlayerFragment : Fragment() {
         srl_list.isEnabled = false
         rv_list.layoutManager = LinearLayoutManager(context)
         rv_list.adapter = PlayerAdapter(context, Resource.loading(null)) {
-
+            startActivity(PlayerDetailActivity.getStartIntent(context, it.idPlayer))
         }
     }
 

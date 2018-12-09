@@ -105,4 +105,14 @@ data class Player(
     val strWeight: String?,
     @Json(name = "strYoutube")
     val strYoutube: String?
-)
+) {
+
+    fun getWeight(): String = formatNumber(strWeight)
+    fun getHeight(): String = formatNumber(strHeight)
+
+    private fun formatNumber(number: String?) : String {
+        if (number.isNullOrBlank()) return "-"
+        val regex = """[\d]*\.[\d]*""".toRegex().find(number)?.value
+        return regex ?: "-"
+    }
+}

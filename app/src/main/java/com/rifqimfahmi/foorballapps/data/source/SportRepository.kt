@@ -233,6 +233,24 @@ class SportRepository(
         }
     }
 
+    fun getPlayer(playerId: String): LiveData<Resource<Player>> {
+        return object : NetworkBoundResource<Player, PlayersResponse>() {
+            override fun saveCallResult(item: PlayersResponse) {
+                val player = item.player?.get(0)
+                player?.let {
+                    sportDao.savePlayers(item.player)
+                }
+            }
+
+            override fun createCall(): LiveData<ApiResponse<PlayersResponse>> = sportService.getPlayer(playerId)
+
+            override fun shouldFetch(data: Player?): Boolean = true
+
+            override fun loadFromDb(): LiveData<Player> = sportDao.getPlayer(playerId)
+
+        }.asLiveData()
+    }
+
     companion object {
         private var INSTANCE: SportRepository? = null
 

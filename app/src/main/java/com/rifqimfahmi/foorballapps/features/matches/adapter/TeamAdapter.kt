@@ -35,7 +35,7 @@ class TeamAdapter(ctx: Context?, resource: Resource<List<Team>>, private val cli
         fun bind(nTeam: Team?, clickListener: (Team) -> Unit) {
             nTeam?.let { team ->
                 with(itemView) {
-                    Picasso.get().load(team.strTeamBadge).into(iv_club)
+                    if (!team.strTeamBadge.isNullOrEmpty()) { Picasso.get().load(team.strTeamBadge).into(iv_club) }
                     tv_club.text = team.strTeam
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         itemView.stateListAnimator =
