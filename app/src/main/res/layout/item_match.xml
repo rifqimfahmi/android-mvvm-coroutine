@@ -4,26 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="2dp"
-    android:layout_marginTop="2dp"
     android:layout_marginStart="4dp"
+    android:layout_marginTop="2dp"
     android:layout_marginEnd="4dp"
+    android:layout_marginBottom="2dp"
     android:background="@color/item_background"
     android:foreground="?attr/selectableItemBackground"
     android:orientation="vertical"
     android:paddingTop="16dp"
-    >
+    android:paddingBottom="16dp">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="VS"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/tv_hour" />
 
     <TextView
         android:id="@+id/tv_score1"
@@ -35,8 +34,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textView"
-        tools:text="2"
-        />
+        tools:text="2" />
 
     <TextView
         android:id="@+id/tv_score2"
@@ -48,8 +46,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textView"
-        tools:text="2"
-        />
+        tools:text="2" />
 
     <TextView
         android:id="@+id/tv_club1"
@@ -61,12 +58,11 @@
         android:gravity="center"
         android:maxLines="2"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toStartOf="@+id/tv_score1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Manchester United "
-        />
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        tools:text="Manchester United " />
 
     <TextView
         android:id="@+id/tv_club2"
@@ -78,24 +74,34 @@
         android:gravity="center"
         android:maxLines="2"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_score2"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Manchester United "
-        />
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        tools:text="Manchester United " />
 
     <TextView
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:textStyle="bold"
-        android:textSize="12sp"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        android:textSize="12sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="24, August 2018"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="24, August 2018" />
+
+    <TextView
+        android:id="@+id/tv_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_date"
+        tools:text="24:00" />
 </androidx.constraintlayout.widget.ConstraintLayout>

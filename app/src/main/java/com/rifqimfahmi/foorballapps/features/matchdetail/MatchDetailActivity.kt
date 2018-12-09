@@ -98,7 +98,7 @@ class MatchDetailActivity : AppCompatActivity() {
         val match = resource?.data ?: return
         with (match) {
             tv_date.text = getDate()
-            tv_date.text = getDate()
+            tv_hour.text = getHour()
             tv_club1.text = strHomeTeam
             tv_score1.text = intHomeScore
             tv_club2.text = strAwayTeam

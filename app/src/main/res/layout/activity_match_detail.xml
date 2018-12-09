@@ -41,7 +41,7 @@
                     android:text="VS"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_date" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_hour" />
 
                 <TextView
                     android:id="@+id/tv_score1"
@@ -119,11 +119,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/iv_club2"
                     tools:text="Manchester United " />
 
+
                 <TextView
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:textColor="@color/colorPrimary"
                     android:textSize="12sp"
@@ -132,6 +133,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="24, August 2018" />
+
+                <TextView
+                    android:id="@+id/tv_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"
+                    android:layout_marginTop="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_date"
+                    tools:text="20:00" />
 
                 <LinearLayout
                     android:id="@+id/ll_goals"

@@ -36,6 +36,7 @@ class MatchesAdapter(ctx: Context?, resource: Resource<List<Match>>, private val
         fun bind(nMatch: Match?, clickListener: (Match) -> Unit) {
             nMatch?.let { match ->
                 with(itemView) {
+                    tv_hour.text = match.getHour()
                     tv_date.text = match.getDate()
                     tv_club1.text = match.strHomeTeam
                     tv_score1.text = match.intHomeScore

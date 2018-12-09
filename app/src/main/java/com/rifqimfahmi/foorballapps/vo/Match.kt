@@ -144,4 +144,15 @@ data class Match (
         return strHomeGoalDetails?.replace(";\\s?".toRegex(), "\n") ?: "-"
     }
 
+    fun getHour(): String? {
+        strTime?.let {
+            val pattern = "HH:mm"
+            val dateFormat = SimpleDateFormat("HH:mm")
+            val date = dateFormat.parse(it)
+            dateFormat.applyPattern(pattern)
+            return dateFormat.format(date)
+        }
+        return ""
+    }
+
 }
