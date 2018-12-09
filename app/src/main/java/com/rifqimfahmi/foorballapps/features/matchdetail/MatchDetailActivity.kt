@@ -3,8 +3,14 @@ package com.rifqimfahmi.foorballapps.features.matchdetail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.util.obtainViewModel
 import com.rifqimfahmi.foorballapps.vo.Match
@@ -16,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_match_detail.*
 class MatchDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MatchViewModel
+    private var menu: Menu? = null
 
     val idEvent: String by lazy { intent.getStringExtra(ARG_KEY_ID_EVENT) }
     val idHomeTeam: String by lazy { intent.getStringExtra(ARG_KEY_ID_HOME_TEAM) }
@@ -25,11 +32,66 @@ class MatchDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_match_detail)
 
+        initData()
+        setupToolbar()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menu = menu
+        menuInflater.inflate(R.menu.match_detail, menu)
+        updateIconIfFavorite(viewModel.isFavorite.value)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun updateIconIfFavorite(favorite: Boolean?) {
+        if (favorite == null) return
+        if (favorite) {
+            menu?.findItem(R.id.favorite)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorites)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            R.id.favorite -> {
+                viewModel.toggleFavorite(idEvent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(tb_detail)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun initData() {
         viewModel = obtainViewModel()
         viewModel.initData(idEvent, idHomeTeam, idAwayTeam)
         viewModel.homeTeam.observe(this, Observer { res -> setupHomeTeam(res) })
         viewModel.awayTeam.observe(this, Observer { res -> setupAwayTeam(res) })
         viewModel.matchDetail.observe(this, Observer { res -> setupMatchDetail(res) })
+        viewModel.isFavorite.observe(this, Observer { isFavorite -> updateFavoriteIcon(isFavorite) })
+    }
+
+    private fun updateFavoriteIcon(isFavorite: Boolean?) {
+        val menuItem = menu?.findItem(R.id.favorite)
+        if (isFavorite == null || menuItem == null) return
+        if (isFavorite) {
+            menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorites)
+            showMessage("Added to favorites")
+        } else {
+            menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite_border)
+            showMessage("Removed from favorites")
+        }
+    }
+
+    private fun showMessage(message: String) {
+        Snackbar.make(content_container, message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun setupMatchDetail(resource: Resource<Match>?) {

@@ -1,6 +1,7 @@
 package com.rifqimfahmi.foorballapps.data.source
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import com.rifqimfahmi.foorballapps.data.source.local.SportDao
 import com.rifqimfahmi.foorballapps.data.source.local.SportDb
 import com.rifqimfahmi.foorballapps.data.source.remote.ApiResponse
@@ -11,10 +12,10 @@ import com.rifqimfahmi.foorballapps.data.source.remote.json.SchedulesResponse
 import com.rifqimfahmi.foorballapps.data.source.remote.json.TeamsResponse
 import com.rifqimfahmi.foorballapps.features.matches.MatchesListFragment
 import com.rifqimfahmi.foorballapps.testing.OpenForTesting
-import com.rifqimfahmi.foorballapps.vo.Match
-import com.rifqimfahmi.foorballapps.vo.Player
-import com.rifqimfahmi.foorballapps.vo.Resource
-import com.rifqimfahmi.foorballapps.vo.Team
+import com.rifqimfahmi.foorballapps.vo.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /*
  * Created by Rifqi Mulya Fahmi on 19/11/18.
@@ -124,7 +125,7 @@ class SportRepository(
     fun getEventDetail(matchId: String): LiveData<Resource<Match>> {
         return object : NetworkBoundResource<Match, SchedulesResponse>() {
             override fun saveCallResult(item: SchedulesResponse) {
-                item.events?.let{ matches ->
+                item.events?.let { matches ->
                     matches.forEach { match ->
                         match?.let {
                             if (match.isNextMatch()) {
@@ -152,7 +153,7 @@ class SportRepository(
         return object : NetworkBoundResource<List<Player>, PlayersResponse>() {
 
             override fun saveCallResult(item: PlayersResponse) {
-                item.player?.let {  players ->
+                item.player?.let { players ->
                     sportDao.savePlayers(players)
                 }
             }
@@ -164,6 +165,28 @@ class SportRepository(
             override fun loadFromDb(): LiveData<List<Player>> = sportDao.getPlayers(teamId)
 
         }.asLiveData()
+    }
+
+    fun isFavoriteMatch(matchId: String): LiveData<Boolean> {
+        val isFavorite = MediatorLiveData<Boolean>()
+        val favCount = sportDao.isFavoriteMatch(matchId)
+
+        isFavorite.addSource(favCount) { data ->
+            data?.let {
+                isFavorite.value = it.favCount > 0
+            }
+        }
+        return isFavorite
+    }
+
+    fun toggleFavorite(matchId: String, isFavorite: Boolean) {
+        GlobalScope.launch (Dispatchers.IO) {
+            if (isFavorite) { // Remove from favorite
+                sportDao.deleteFavorites(matchId)
+            } else { // Add to favorite
+                sportDao.addToFavorite(FavoriteMatch(matchId))
+            }
+        }
     }
 
     companion object {

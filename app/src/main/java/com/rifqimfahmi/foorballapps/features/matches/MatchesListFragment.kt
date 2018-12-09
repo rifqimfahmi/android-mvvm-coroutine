@@ -47,17 +47,21 @@ class MatchesListFragment : Fragment() {
         when (getType()) {
             TYPE_NEXT_MATCH -> {
                 viewModel.nextMatches.observe(activity as MatchesActivity, Observer { data ->
-                    (rv_list.adapter as MatchesAdapter).submitData(data)
-                    updateRefreshIndicator(data)
+                    updateData(data)
                 })
             }
             TYPE_PREV_MATCH -> {
                 viewModel.prevMatch.observe(activity as MatchesActivity, Observer { data ->
-                    (rv_list.adapter as MatchesAdapter).submitData(data)
-                    updateRefreshIndicator(data)
+                    updateData(data)
                 })
             }
         }
+    }
+
+    private fun updateData(data: Resource<List<Match>>?) {
+        if (data == null || rv_list == null) return
+        (rv_list.adapter as MatchesAdapter).submitData(data)
+        updateRefreshIndicator(data)
     }
 
     private fun <T> updateRefreshIndicator(data: Resource<List<T>>) {

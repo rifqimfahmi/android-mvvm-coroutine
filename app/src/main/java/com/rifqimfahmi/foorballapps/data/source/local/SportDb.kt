@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.rifqimfahmi.foorballapps.vo.FavoriteMatch
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Player
 import com.rifqimfahmi.foorballapps.vo.Team
@@ -11,7 +12,7 @@ import com.rifqimfahmi.foorballapps.vo.Team
 /*
  * Created by Rifqi Mulya Fahmi on 19/11/18.
  */
-@Database(entities = [Match::class, Team::class, Player::class], version = 5)
+@Database(entities = [Match::class, Team::class, Player::class, FavoriteMatch::class], version = 7)
 abstract class SportDb : RoomDatabase() {
 
     abstract fun sportDao(): SportDao

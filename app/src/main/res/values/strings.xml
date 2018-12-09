@@ -4,6 +4,7 @@
     <string name="tittle_teams">Teams</string>
     <string name="title_favorites">Favorites</string>
     <string name="title_search">Search</string>
+    <string name="favorites">Love it</string>
 
     <string-array name="leagues">
         <item>English Premier League</item>
