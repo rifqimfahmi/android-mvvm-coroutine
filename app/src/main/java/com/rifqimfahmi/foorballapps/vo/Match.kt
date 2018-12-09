@@ -140,6 +140,14 @@ data class Match (
         return false
     }
 
+    fun getStartTime(): Long? {
+        if (dateEvent == null || strTime == null) return null
+        val time = "$dateEvent $strTime"
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm")
+        val date: Date = dateFormat.parse(time)
+        return date.time
+    }
+
     fun format(strHomeGoalDetails: String?): String {
         return strHomeGoalDetails?.replace(";\\s?".toRegex(), "\n") ?: "-"
     }
