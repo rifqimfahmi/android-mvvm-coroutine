@@ -179,7 +179,7 @@ class SportRepository(
         return isFavorite
     }
 
-    fun toggleFavorite(matchId: String, isFavorite: Boolean) {
+    fun toggleFavoriteMatch(matchId: String, isFavorite: Boolean) {
         GlobalScope.launch (Dispatchers.IO) {
             if (isFavorite) { // Remove from favorite
                 sportDao.deleteFavorites(matchId)
@@ -198,6 +198,28 @@ class SportRepository(
             }
         }
         return data
+    }
+
+    fun isFavoriteTeam(teamId: String): LiveData<Boolean> {
+        val isFavorite = MediatorLiveData<Boolean>()
+        val favCount = sportDao.isFavoriteTeam(teamId)
+
+        isFavorite.addSource(favCount) { data ->
+            data?.let {
+                isFavorite.value = it.favCount > 0
+            }
+        }
+        return isFavorite
+    }
+
+    fun toggleFavoriteTeam(teamId: String, isFavorite: Boolean) {
+        GlobalScope.launch (Dispatchers.IO) {
+            if (isFavorite) { // Remove from favorite
+                sportDao.deleteFavoriteTeam(teamId)
+            } else { // Add to favorite
+                sportDao.addToFavoriteTeam(FavoriteTeam(teamId))
+            }
+        }
     }
 
     companion object {

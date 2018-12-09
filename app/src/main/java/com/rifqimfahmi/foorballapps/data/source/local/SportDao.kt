@@ -7,10 +7,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.rifqimfahmi.foorballapps.data.source.local.subset.FavoriteCount
 import com.rifqimfahmi.foorballapps.features.matches.MatchesListFragment
-import com.rifqimfahmi.foorballapps.vo.FavoriteMatch
-import com.rifqimfahmi.foorballapps.vo.Match
-import com.rifqimfahmi.foorballapps.vo.Player
-import com.rifqimfahmi.foorballapps.vo.Team
+import com.rifqimfahmi.foorballapps.vo.*
 
 /*
  * Created by Rifqi Mulya Fahmi on 21/11/18.
@@ -46,8 +43,14 @@ interface SportDao {
     @Query("SELECT COUNT(*) as favCount FROM favorite_matches WHERE idMatch = :idEvent")
     fun isFavoriteMatch(idEvent: String): LiveData<FavoriteCount>
 
+    @Query("SELECT COUNT(*) as favCount FROM favorite_teams WHERE idTeam = :teamId")
+    fun isFavoriteTeam(teamId: String): LiveData<FavoriteCount>
+
     @Query("DELETE FROM favorite_matches WHERE idMatch = :matchId")
     fun deleteFavorites(matchId: String)
+
+    @Query("DELETE FROM favorite_teams WHERE idTeam = :teamId")
+    fun deleteFavoriteTeam(teamId: String)
 
     @Query("SELECT * FROM matches INNER JOIN favorite_matches ON favorite_matches.idMatch = idEvent")
     fun getFavoriteMatches(): LiveData<List<Match>>
@@ -63,6 +66,9 @@ interface SportDao {
 
     @Insert(onConflict = REPLACE)
     fun addToFavorite(favMatch: FavoriteMatch)
+
+    @Insert(onConflict = REPLACE)
+    fun addToFavoriteTeam(favoriteTeam: FavoriteTeam)
 
 
 }

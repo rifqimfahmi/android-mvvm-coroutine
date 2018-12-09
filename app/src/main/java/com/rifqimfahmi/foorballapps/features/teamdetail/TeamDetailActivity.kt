@@ -3,8 +3,12 @@ package com.rifqimfahmi.foorballapps.features.teamdetail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.features.teamdetail.adapter.TeamDetailPagerAdapter
 import com.rifqimfahmi.foorballapps.util.obtainViewModel
@@ -16,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_team_detail.*
 class TeamDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: TeamViewModel
+    private var menu: Menu? = null
 
     val teamId: String by lazy { intent.getStringExtra(ARG_KEY_MATCH_ID) }
 
@@ -28,11 +33,56 @@ class TeamDetailActivity : AppCompatActivity() {
         setupData()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menu = menu
+        menuInflater.inflate(R.menu.match_detail, menu)
+        updateIconIfFavorite(viewModel.isFavorite.value)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun updateIconIfFavorite(favorite: Boolean?) {
+        if (favorite == null) return
+        if (favorite) {
+            menu?.findItem(R.id.favorite)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorites)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            R.id.favorite -> {
+                viewModel.toggleFavorite(teamId)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun setupData() {
         viewModel = obtainViewModel().apply {
             initData(teamId)
             team.observe(this@TeamDetailActivity, Observer { res -> updateTeamDetail(res) })
+            isFavorite.observe(this@TeamDetailActivity, Observer { isFavorite -> updateFavoriteIcon(isFavorite) })
         }
+    }
+
+    private fun updateFavoriteIcon(isFavorite: Boolean?) {
+        val menuItem = menu?.findItem(R.id.favorite)
+        if (isFavorite == null || menuItem == null) return
+        if (isFavorite) {
+            menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorites)
+            showMessage("Added to favorites")
+        } else {
+            menuItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_favorite_border)
+            showMessage("Removed from favorites")
+        }
+    }
+
+    private fun showMessage(message: String) {
+        Snackbar.make(content_container, message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun setupPager() {

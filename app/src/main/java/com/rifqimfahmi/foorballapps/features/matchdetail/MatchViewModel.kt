@@ -60,7 +60,7 @@ class MatchViewModel(ctx: Application, private val sportRepository: SportReposit
 
     fun toggleFavorite(matchId: String) {
         isFavorite.value?.let {
-            sportRepository.toggleFavorite(matchId, it)
+            sportRepository.toggleFavoriteMatch(matchId, it)
         }
     }
 

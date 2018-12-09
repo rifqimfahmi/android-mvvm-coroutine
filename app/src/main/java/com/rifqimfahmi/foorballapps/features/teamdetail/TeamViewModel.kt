@@ -15,7 +15,7 @@ import com.rifqimfahmi.foorballapps.vo.Team
  * Created by Rifqi Mulya Fahmi on 08/12/18.
  */
  
-class TeamViewModel(context: Application, sportRepository: SportRepository) : AndroidViewModel(context) {
+class TeamViewModel(context: Application, private val sportRepository: SportRepository) : AndroidViewModel(context) {
 
     private val teamId = MutableLiveData<String>()
 
@@ -35,7 +35,18 @@ class TeamViewModel(context: Application, sportRepository: SportRepository) : An
         }
     }
 
+    val isFavorite : LiveData<Boolean> = Transformations.switchMap(teamId) { id ->
+        sportRepository.isFavoriteTeam(id)
+    }
+
     fun initData(teamId: String) {
         this.teamId.value = teamId
+    }
+
+
+    fun toggleFavorite(matchId: String) {
+        isFavorite.value?.let {
+            sportRepository.toggleFavoriteTeam(matchId, it)
+        }
     }
 }
