@@ -273,6 +273,23 @@ class SportRepository(
         }.asLiveData()
     }
 
+    fun searchTeam(query: String): LiveData<Resource<List<Team>>> {
+        return object : NetworkBoundResource<List<Team>, TeamsResponse>() {
+            override fun saveCallResult(item: TeamsResponse) {
+                item.teams?.let { teams ->
+                    sportDao.saveTeams(teams)
+                }
+            }
+
+            override fun createCall(): LiveData<ApiResponse<TeamsResponse>> = sportService.searchTeam(query)
+
+            override fun shouldFetch(data: List<Team>?): Boolean = true
+
+            override fun loadFromDb(): LiveData<List<Team>> = sportDao.searchTeam("%$query%")
+
+        }.asLiveData()
+    }
+
     companion object {
         private var INSTANCE: SportRepository? = null
 

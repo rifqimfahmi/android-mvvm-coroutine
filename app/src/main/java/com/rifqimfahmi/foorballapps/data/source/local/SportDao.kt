@@ -79,5 +79,8 @@ interface SportDao {
     @Query("SELECT * FROM matches WHERE strEvent LIKE :query ORDER BY dateEvent DESC")
     fun searchMatch(query: String): LiveData<List<Match>>
 
+    @Query("SELECT * FROM teams WHERE strTeam LIKE :query")
+    fun searchTeam(query: String): LiveData<List<Team>>
+
 
 }

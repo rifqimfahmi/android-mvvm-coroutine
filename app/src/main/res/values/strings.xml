@@ -6,6 +6,7 @@
     <string name="title_search">Search</string>
     <string name="favorites">Love it</string>
     <string name="match_search_hint">Find match</string>
+    <string name="team_search_hint">Find team</string>
 
     <string-array name="leagues">
         <item>English Premier League</item>

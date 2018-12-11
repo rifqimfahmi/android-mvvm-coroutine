@@ -1,15 +1,21 @@
 package com.rifqimfahmi.foorballapps.features.matches
 
+import android.app.SearchManager
+import android.content.ComponentName
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.features.matches.adapter.TeamAdapter
+import com.rifqimfahmi.foorballapps.features.searchmatch.SearchMatchActivity
+import com.rifqimfahmi.foorballapps.features.searchteam.SearchTeamActivity
 import com.rifqimfahmi.foorballapps.features.teamdetail.TeamDetailActivity
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.rifqimfahmi.foorballapps.vo.Status
@@ -56,6 +62,11 @@ class TeamsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater?.inflate(R.menu.main_menu, menu)
+
+        val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu?.findItem(R.id.menu_search)?.actionView as SearchView).apply {
+            setSearchableInfo(searchManager.getSearchableInfo(ComponentName(context, SearchTeamActivity::class.java)))
+        }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
