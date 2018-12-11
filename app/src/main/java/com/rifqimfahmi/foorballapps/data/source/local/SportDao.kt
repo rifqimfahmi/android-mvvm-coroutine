@@ -16,10 +16,10 @@ import com.rifqimfahmi.foorballapps.vo.*
 @Dao
 interface SportDao {
 
-    @Query("SELECT * FROM matches WHERE idLeague = :idLeague AND matchType = '${MatchesListFragment.TYPE_NEXT_MATCH}'")
+    @Query("SELECT * FROM matches WHERE idLeague = :idLeague AND matchType = '${MatchesListFragment.TYPE_NEXT_MATCH}' ORDER BY dateEvent DESC LIMIT 15")
     fun getNextMatches(idLeague: String?): LiveData<List<Match>>
 
-    @Query("SELECT * FROM matches WHERE idLeague = :idLeague AND matchType = '${MatchesListFragment.TYPE_PREV_MATCH}'")
+    @Query("SELECT * FROM matches WHERE idLeague = :idLeague AND matchType = '${MatchesListFragment.TYPE_PREV_MATCH}' ORDER BY dateEvent DESC LIMIT 15")
     fun getPrevMatches(idLeague: String?): LiveData<List<Match>>
 
     @Query("DELETE FROM matches WHERE matchType = '${MatchesListFragment.TYPE_NEXT_MATCH}' AND idLeague = :idLeague")
@@ -75,6 +75,9 @@ interface SportDao {
 
     @Insert(onConflict = REPLACE)
     fun addToFavoriteTeam(favoriteTeam: FavoriteTeam)
+
+    @Query("SELECT * FROM matches WHERE strEvent LIKE :query ORDER BY dateEvent DESC")
+    fun searchMatch(query: String): LiveData<List<Match>>
 
 
 }

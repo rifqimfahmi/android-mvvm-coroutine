@@ -3,6 +3,7 @@ package com.rifqimfahmi.foorballapps.data.source.remote
 import androidx.lifecycle.LiveData
 import com.rifqimfahmi.foorballapps.data.source.remote.json.PlayersResponse
 import com.rifqimfahmi.foorballapps.data.source.remote.json.SchedulesResponse
+import com.rifqimfahmi.foorballapps.data.source.remote.json.SearchSchedulesResponse
 import com.rifqimfahmi.foorballapps.data.source.remote.json.TeamsResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
@@ -34,6 +35,9 @@ interface SportService {
 
     @GET("lookupplayer.php")
     fun getPlayer(@Query("id") playerId: String): LiveData<ApiResponse<PlayersResponse>>
+
+    @GET("searchevents.php")
+    fun searchMatch(@Query("e") query: String): LiveData<ApiResponse<SearchSchedulesResponse>>
 
 //    @GET("lookupteam.php/")
 //    fun lookupTeam(@Query("id") id: String) : LiveData<ApiResponse<TeamLookupResponse>>

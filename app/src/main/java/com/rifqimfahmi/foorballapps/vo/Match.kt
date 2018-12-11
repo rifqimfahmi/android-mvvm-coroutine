@@ -3,6 +3,7 @@ package com.rifqimfahmi.foorballapps.vo
 import android.annotation.SuppressLint
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.rifqimfahmi.foorballapps.features.matches.MatchesListFragment
 import com.squareup.moshi.Json
 import java.text.SimpleDateFormat
 import java.util.*
@@ -161,6 +162,17 @@ data class Match (
             return dateFormat.format(date)
         }
         return ""
+    }
+
+    fun defineMatchType(): String {
+        val matchTimeL = getStartTime() ?: return MatchesListFragment.TYPE_PREV_MATCH
+        val matchTime = Date(matchTimeL)
+        val now = Date()
+        return if (matchTime.after(now)) {
+            MatchesListFragment.TYPE_NEXT_MATCH
+        } else {
+            MatchesListFragment.TYPE_PREV_MATCH
+        }
     }
 
 }

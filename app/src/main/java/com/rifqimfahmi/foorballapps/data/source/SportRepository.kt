@@ -9,6 +9,7 @@ import com.rifqimfahmi.foorballapps.data.source.remote.NetworkBoundResource
 import com.rifqimfahmi.foorballapps.data.source.remote.SportService
 import com.rifqimfahmi.foorballapps.data.source.remote.json.PlayersResponse
 import com.rifqimfahmi.foorballapps.data.source.remote.json.SchedulesResponse
+import com.rifqimfahmi.foorballapps.data.source.remote.json.SearchSchedulesResponse
 import com.rifqimfahmi.foorballapps.data.source.remote.json.TeamsResponse
 import com.rifqimfahmi.foorballapps.features.matches.MatchesListFragment
 import com.rifqimfahmi.foorballapps.testing.OpenForTesting
@@ -247,6 +248,27 @@ class SportRepository(
             override fun shouldFetch(data: Player?): Boolean = true
 
             override fun loadFromDb(): LiveData<Player> = sportDao.getPlayer(playerId)
+
+        }.asLiveData()
+    }
+
+    fun searchMatch(query: String): LiveData<Resource<List<Match>>> {
+        return object : NetworkBoundResource<List<Match>, SearchSchedulesResponse>() {
+            override fun saveCallResult(item: SearchSchedulesResponse) {
+                item.event?.let {  matches ->
+                    matches.forEach { match ->
+                        match?.matchType = match?.defineMatchType()
+                    }
+
+                    sportDao.saveMatches(matches)
+                }
+            }
+
+            override fun createCall(): LiveData<ApiResponse<SearchSchedulesResponse>> = sportService.searchMatch(query)
+
+            override fun shouldFetch(data: List<Match>?): Boolean = true
+
+            override fun loadFromDb(): LiveData<List<Match>> = sportDao.searchMatch("%$query%")
 
         }.asLiveData()
     }

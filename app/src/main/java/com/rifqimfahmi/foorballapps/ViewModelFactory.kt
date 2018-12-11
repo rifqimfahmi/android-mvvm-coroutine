@@ -9,6 +9,7 @@ import com.rifqimfahmi.foorballapps.data.source.remote.SportServiceFactory
 import com.rifqimfahmi.foorballapps.features.matchdetail.MatchViewModel
 import com.rifqimfahmi.foorballapps.features.matches.MatchesViewModel
 import com.rifqimfahmi.foorballapps.features.playerdetail.PlayerViewModel
+import com.rifqimfahmi.foorballapps.features.searchmatch.SearchMatchViewModel
 import com.rifqimfahmi.foorballapps.features.teamdetail.TeamViewModel
 
 /*
@@ -30,6 +31,8 @@ class ViewModelFactory private constructor(
                     TeamViewModel(application, sportRepository)
                 isAssignableFrom(PlayerViewModel::class.java) ->
                     PlayerViewModel(application, sportRepository)
+                isAssignableFrom(SearchMatchViewModel::class.java) ->
+                    SearchMatchViewModel(application, sportRepository)
                 else ->
                     error("Invalid View Model class")
             }
