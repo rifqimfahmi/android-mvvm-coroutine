@@ -2,7 +2,6 @@ package com.rifqimfahmi.foorballapps.features.searchmatch
 
 import android.app.SearchManager
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +14,7 @@ import com.rifqimfahmi.foorballapps.features.matches.adapter.MatchesAdapter
 import com.rifqimfahmi.foorballapps.util.obtainViewModel
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
-import kotlinx.android.synthetic.main.activity_search_match.*
+import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.list_items.*
 
 class SearchMatchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
@@ -27,7 +26,7 @@ class SearchMatchActivity : AppCompatActivity(), SearchView.OnQueryTextListener 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_match)
+        setContentView(R.layout.activity_search)
 
         setupToolbar()
         setupData()
