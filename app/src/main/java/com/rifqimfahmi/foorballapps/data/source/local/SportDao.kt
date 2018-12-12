@@ -52,7 +52,7 @@ interface SportDao {
     @Query("DELETE FROM favorite_teams WHERE idTeam = :teamId")
     fun deleteFavoriteTeam(teamId: String)
 
-    @Query("SELECT * FROM matches INNER JOIN favorite_matches ON favorite_matches.idMatch = idEvent")
+    @Query("SELECT * FROM matches INNER JOIN favorite_matches ON favorite_matches.idMatch = idEvent ORDER BY dateEvent DESC")
     fun getFavoriteMatches(): LiveData<List<Match>>
 
     @Query("SELECT * FROM teams INNER JOIN favorite_teams ON favorite_teams.idTeam = teams.idTeam")
