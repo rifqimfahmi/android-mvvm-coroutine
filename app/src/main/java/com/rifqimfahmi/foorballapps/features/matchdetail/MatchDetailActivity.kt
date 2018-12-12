@@ -129,13 +129,13 @@ class MatchDetailActivity : AppCompatActivity() {
 
     private fun setupAwayTeam(resource: Resource<Team>?) {
         resource?.data?.strTeamBadge?.let {
-            Picasso.get().load(it).into(iv_club1)
+            Picasso.get().load(it).into(iv_club2)
         }
     }
 
     private fun setupHomeTeam(resource: Resource<Team>?) {
         resource?.data?.strTeamBadge?.let {
-            Picasso.get().load(it).into(iv_club2)
+            Picasso.get().load(it).into(iv_club1)
         }
     }
 
