@@ -7,9 +7,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.data.source.SportRepository
+import com.rifqimfahmi.foorballapps.util.AbsentLiveData
 import com.rifqimfahmi.foorballapps.util.mock
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
+import com.rifqimfahmi.foorballapps.vo.Team
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.Is.`is`
+import org.hamcrest.core.IsEqual.equalTo
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -46,6 +51,8 @@ class MatchesViewModelTest {
         setupContext()
 
         viewModel = MatchesViewModel(context, repository)
+        verify(repository).getFavoriteMatches()
+        verify(repository).getFavoriteTeams()
     }
 
     private fun setupContext() {
@@ -66,12 +73,15 @@ class MatchesViewModelTest {
     }
 
     @Test
-    fun refresh() {
+    fun refreshMatches() {
         viewModel.refreshMatches()
         verifyNoMoreInteractions(repository)
 
         viewModel.setMatchesFilterBy(0)
+        assertThat(viewModel.matchFilterId.value, `is`(equalTo(testLeagueId)))
+
         viewModel.refreshMatches()
+        assertThat(viewModel.matchFilterId.value, `is`(equalTo(viewModel.matchFilterId.value)))
         verifyNoMoreInteractions(repository)
 
         val matchesObs = mock<Observer<Resource<List<Match>>>>()
@@ -80,5 +90,32 @@ class MatchesViewModelTest {
 
         verify(repository).nextMatches(testLeagueId)
         verify(repository).prevMatches(testLeagueId)
+    }
+
+    @Test
+    fun refreshTeams() {
+        viewModel.refreshTeams()
+        verifyNoMoreInteractions(repository)
+
+        viewModel.setTeamFilterBy(0)
+        assertThat(viewModel.teamFilterId.value, `is`(equalTo(testLeagueId)))
+
+        viewModel.refreshTeams()
+        verifyNoMoreInteractions(repository)
+
+        val teamsObs = mock<Observer<Resource<List<Team>>>>()
+        viewModel.teams.observeForever(teamsObs)
+
+        verify(repository).teams(testLeagueId)
+    }
+
+    @Test
+    fun noObserver() {
+        viewModel.setTeamFilterBy(0)
+        verify(repository, never()).teams(testLeagueId)
+
+        viewModel.setMatchesFilterBy(0)
+        verify(repository, never()).nextMatches(testLeagueId)
+        verify(repository, never()).prevMatches(testLeagueId)
     }
 }

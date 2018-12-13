@@ -20,8 +20,8 @@ import com.rifqimfahmi.foorballapps.vo.Team
 class MatchesViewModel(context: Application, sportRepository: SportRepository) : AndroidViewModel(context) {
 
     // LiveData for league categories
-    private val matchFilterId = MutableLiveData<String>()
-    private val teamFilterId = MutableLiveData<String>()
+    val matchFilterId = MutableLiveData<String>()
+    val teamFilterId = MutableLiveData<String>()
 
     val context: Context = context.applicationContext // application Context to avoid leaks
 
