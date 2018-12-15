@@ -63,9 +63,4 @@ class MatchViewModel(ctx: Application, private val sportRepository: SportReposit
             sportRepository.toggleFavoriteMatch(matchId, it)
         }
     }
-
-    fun refreshToolbarIcon() {
-        idEvent.value = idEvent.value
-    }
-
 }
