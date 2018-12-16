@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.rifqimfahmi.foorballapps.data.source.local.subset.FavoriteCount
 import com.rifqimfahmi.foorballapps.features.matches.MatchesListFragment
+import com.rifqimfahmi.foorballapps.testing.OpenForTesting
 import com.rifqimfahmi.foorballapps.vo.*
 
 /*
@@ -14,6 +15,7 @@ import com.rifqimfahmi.foorballapps.vo.*
  */
 
 @Dao
+@OpenForTesting
 interface SportDao {
 
     @Query("SELECT * FROM matches WHERE idLeague = :idLeague AND matchType = '${MatchesListFragment.TYPE_NEXT_MATCH}' ORDER BY dateEvent DESC LIMIT 15")

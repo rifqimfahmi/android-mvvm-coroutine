@@ -14,12 +14,12 @@ import java.util.*
 
 @Entity(tableName = "matches", primaryKeys = ["idEvent"])
 data class Match (
+    @Json(name = "idEvent")
+    val idEvent: String, // 576558
     @Json(name = "dateEvent")
     val dateEvent: String?, // 2018-10-22
     @Json(name = "idAwayTeam")
     val idAwayTeam: String?, // 133626
-    @Json(name = "idEvent")
-    val idEvent: String, // 576558
     @Json(name = "idHomeTeam")
     val idHomeTeam: String?, // 133604
     @Json(name = "idLeague")

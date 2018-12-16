@@ -2,18 +2,17 @@ package com.rifqimfahmi.foorballapps.data.source.remote
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import com.rifqimfahmi.foorballapps.ContextProviders
 import com.rifqimfahmi.foorballapps.vo.Resource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 /*
  * Created by Rifqi Mulya Fahmi on 01/12/18.
  */
- 
+
 abstract class NetworkBoundResource<ResultType, RequestType>
-constructor() {
+constructor(private val contextProviders: ContextProviders) {
 
     private val result = MediatorLiveData<Resource<ResultType>>()
 
@@ -49,9 +48,9 @@ constructor() {
             result.removeSource(dbSource)
             when (response) {
                 is ApiSuccessResponse -> {
-                    GlobalScope.launch (Dispatchers.IO) {
+                    GlobalScope.launch(contextProviders.IO) {
                         saveCallResult(processResponse(response))
-                        GlobalScope.launch (Dispatchers.Main) {
+                        GlobalScope.launch(contextProviders.Main) {
                             result.addSource(loadFromDb()) { newData ->
                                 setValue(Resource.success(newData))
                             }
@@ -59,7 +58,7 @@ constructor() {
                     }
                 }
                 is ApiEmptyResponse -> {
-                    GlobalScope.launch (Dispatchers.Main) {
+                    GlobalScope.launch(contextProviders.Main) {
                         result.addSource(loadFromDb()) { newData ->
                             setValue(Resource.success(newData))
                         }
@@ -87,6 +86,6 @@ constructor() {
 
     protected abstract fun shouldFetch(data: ResultType?): Boolean
 
-    protected abstract fun loadFromDb() : LiveData<ResultType>
+    protected abstract fun loadFromDb(): LiveData<ResultType>
 
 }

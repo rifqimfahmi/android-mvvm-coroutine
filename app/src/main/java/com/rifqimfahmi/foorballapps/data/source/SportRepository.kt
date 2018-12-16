@@ -2,6 +2,7 @@ package com.rifqimfahmi.foorballapps.data.source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import com.rifqimfahmi.foorballapps.ContextProviders
 import com.rifqimfahmi.foorballapps.data.source.local.SportDao
 import com.rifqimfahmi.foorballapps.data.source.local.SportDb
 import com.rifqimfahmi.foorballapps.data.source.remote.ApiResponse
@@ -26,11 +27,12 @@ import kotlinx.coroutines.launch
 class SportRepository(
     private val db: SportDb,
     private val sportDao: SportDao,
-    private val sportService: SportService
+    private val sportService: SportService,
+    private val coroutineContext: ContextProviders
 ) {
 
     fun nextMatches(leagueId: String): LiveData<Resource<List<Match>>> {
-        return object : NetworkBoundResource<List<Match>, SchedulesResponse>() {
+        return object : NetworkBoundResource<List<Match>, SchedulesResponse>(coroutineContext) {
             override fun saveCallResult(item: SchedulesResponse) {
                 val matches = item.events
                 matches?.let { matchesData ->
@@ -57,7 +59,7 @@ class SportRepository(
     }
 
     fun prevMatches(leagueId: String): LiveData<Resource<List<Match>>> {
-        return object : NetworkBoundResource<List<Match>, SchedulesResponse>() {
+        return object : NetworkBoundResource<List<Match>, SchedulesResponse>(coroutineContext) {
 
             override fun saveCallResult(item: SchedulesResponse) {
                 val matches = item.events
@@ -85,7 +87,7 @@ class SportRepository(
     }
 
     fun teams(leagueId: String): LiveData<Resource<List<Team>>> {
-        return object : NetworkBoundResource<List<Team>, TeamsResponse>() {
+        return object : NetworkBoundResource<List<Team>, TeamsResponse>(coroutineContext) {
 
             override fun saveCallResult(item: TeamsResponse) {
                 item.teams?.let {
@@ -105,7 +107,7 @@ class SportRepository(
     }
 
     fun getTeam(teamId: String): LiveData<Resource<Team>> {
-        return object : NetworkBoundResource<Team, TeamsResponse>() {
+        return object : NetworkBoundResource<Team, TeamsResponse>(coroutineContext) {
             override fun saveCallResult(item: TeamsResponse) {
                 item.teams?.let {
                     db.runInTransaction {
@@ -124,7 +126,7 @@ class SportRepository(
     }
 
     fun getEventDetail(matchId: String): LiveData<Resource<Match>> {
-        return object : NetworkBoundResource<Match, SchedulesResponse>() {
+        return object : NetworkBoundResource<Match, SchedulesResponse>(coroutineContext) {
             override fun saveCallResult(item: SchedulesResponse) {
                 item.events?.let { matches ->
                     matches.forEach { match ->
@@ -151,7 +153,7 @@ class SportRepository(
     }
 
     fun getPlayers(teamId: String): LiveData<Resource<List<Player>>> {
-        return object : NetworkBoundResource<List<Player>, PlayersResponse>() {
+        return object : NetworkBoundResource<List<Player>, PlayersResponse>(coroutineContext) {
 
             override fun saveCallResult(item: PlayersResponse) {
                 item.player?.let { players ->
@@ -181,7 +183,7 @@ class SportRepository(
     }
 
     fun toggleFavoriteMatch(matchId: String, isFavorite: Boolean) {
-        GlobalScope.launch (Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.IO) {
             if (isFavorite) { // Remove from favorite
                 sportDao.deleteFavoriteMatch(matchId)
             } else { // Add to favorite
@@ -225,7 +227,7 @@ class SportRepository(
     }
 
     fun toggleFavoriteTeam(teamId: String, isFavorite: Boolean) {
-        GlobalScope.launch (Dispatchers.IO) {
+        GlobalScope.launch(Dispatchers.IO) {
             if (isFavorite) { // Remove from favorite
                 sportDao.deleteFavoriteTeam(teamId)
             } else { // Add to favorite
@@ -235,7 +237,7 @@ class SportRepository(
     }
 
     fun getPlayer(playerId: String): LiveData<Resource<Player>> {
-        return object : NetworkBoundResource<Player, PlayersResponse>() {
+        return object : NetworkBoundResource<Player, PlayersResponse>(coroutineContext) {
             override fun saveCallResult(item: PlayersResponse) {
                 val player = item.player?.get(0)
                 player?.let {
@@ -253,9 +255,9 @@ class SportRepository(
     }
 
     fun searchMatch(query: String): LiveData<Resource<List<Match>>> {
-        return object : NetworkBoundResource<List<Match>, SearchSchedulesResponse>() {
+        return object : NetworkBoundResource<List<Match>, SearchSchedulesResponse>(coroutineContext) {
             override fun saveCallResult(item: SearchSchedulesResponse) {
-                item.event?.let {  matches ->
+                item.event?.let { matches ->
                     matches.forEach { match ->
                         match?.matchType = match?.defineMatchType()
                     }
@@ -274,7 +276,7 @@ class SportRepository(
     }
 
     fun searchTeam(query: String): LiveData<Resource<List<Team>>> {
-        return object : NetworkBoundResource<List<Team>, TeamsResponse>() {
+        return object : NetworkBoundResource<List<Team>, TeamsResponse>(coroutineContext) {
             override fun saveCallResult(item: TeamsResponse) {
                 item.teams?.let { teams ->
                     sportDao.saveTeams(teams)
@@ -293,9 +295,12 @@ class SportRepository(
     companion object {
         private var INSTANCE: SportRepository? = null
 
-        fun getInstance(sportDb: SportDb, sportService: SportService): SportRepository =
-            INSTANCE ?: synchronized(SportRepository::class.java) {
-                SportRepository(sportDb, sportDb.sportDao(), sportService)
+        fun getInstance(
+            sportDb: SportDb,
+            sportService: SportService
+        ): SportRepository = INSTANCE
+            ?: synchronized(SportRepository::class.java) {
+                SportRepository(sportDb, sportDb.sportDao(), sportService, ContextProviders.getInstance())
                     .also { INSTANCE = it }
             }
     }
