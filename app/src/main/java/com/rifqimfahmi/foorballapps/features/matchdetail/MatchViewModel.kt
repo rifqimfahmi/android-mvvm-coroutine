@@ -15,7 +15,7 @@ import com.rifqimfahmi.foorballapps.vo.Team
 /*
  * Created by Rifqi Mulya Fahmi on 07/12/18.
  */
- 
+
 class MatchViewModel(ctx: Application, private val sportRepository: SportRepository) : AndroidViewModel(ctx) {
 
     private val context: Context = ctx.applicationContext

@@ -9,7 +9,7 @@ import com.rifqimfahmi.foorballapps.vo.*
 /*
  * Created by Rifqi Mulya Fahmi on 19/11/18.
  */
-@Database(entities = [Match::class, Team::class, Player::class, FavoriteMatch::class, FavoriteTeam::class], version = 11)
+@Database(entities = [Match::class, Team::class, Player::class, FavoriteMatch::class, FavoriteTeam::class], version = 1)
 abstract class SportDb : RoomDatabase() {
 
     abstract fun sportDao(): SportDao

@@ -45,11 +45,19 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:$rootProject.mockito"
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    testImplementation "androidx.arch.core:core-testing:$rootProject.lifecycle_version"
+    testImplementation "androidx.room:room-testing:$rootProject.room_version"
+
+    androidTestImplementation "org.mockito:mockito-core:$rootProject.mockito"
+    androidTestImplementation "org.mockito:mockito-android:$rootProject.mockito"
+    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.lifecycle_version"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.test_runner"
+    androidTestImplementation "androidx.test:rules:$rootProject.test_rules"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espresso"
 
     implementation "com.google.android.material:material:$rootProject.material"
 
@@ -72,12 +80,10 @@ dependencies {
     // room
     implementation "androidx.room:room-runtime:$rootProject.room_version"
     kapt "androidx.room:room-compiler:$rootProject.room_version"
-    testImplementation "androidx.room:room-testing:$rootProject.room_version"
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycle_version"
-    testImplementation "androidx.arch.core:core-testing:$rootProject.lifecycle_version"
 
     // OKHttp
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"

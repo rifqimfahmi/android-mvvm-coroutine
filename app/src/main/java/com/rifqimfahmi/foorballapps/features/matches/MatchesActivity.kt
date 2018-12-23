@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.data.source.local.SportDb
 import com.rifqimfahmi.foorballapps.features.matches.adapter.MainPagerAdapter
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_matches.*
 
 class MatchesActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MatchesViewModel
+    lateinit var viewModel: MatchesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,5 +36,9 @@ class MatchesActivity : AppCompatActivity() {
         viewModel = obtainViewModel()
     }
 
-    fun obtainViewModel(): MatchesViewModel = obtainViewModel(MatchesViewModel::class.java)
+    fun obtainViewModel(): MatchesViewModel = obtainViewModel(MatchesViewModel::class.java, viewModelFactory)
+
+    companion object {
+        var viewModelFactory: ViewModelProvider.Factory? = null
+    }
 }

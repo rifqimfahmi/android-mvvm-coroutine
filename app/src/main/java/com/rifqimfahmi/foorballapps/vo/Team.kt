@@ -13,10 +13,10 @@ import com.squareup.moshi.Json
 data class Team (
     @Json(name = "idLeague")
     var idLeague: String, // 4328
-    @Json(name = "idSoccerXML")
-    val idSoccerXML: String?, // 3
     @Json(name = "idTeam")
     var idTeam: String, // 133599
+    @Json(name = "idSoccerXML")
+    val idSoccerXML: String?, // 3
     @Json(name = "intFormedYear")
     val intFormedYear: String?, // 1877
     @Json(name = "intLoved")

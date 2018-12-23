@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.rifqimfahmi.foorballapps.data.source.SportRepository
+import com.rifqimfahmi.foorballapps.testing.OpenForTesting
 import com.rifqimfahmi.foorballapps.util.AbsentLiveData
 import com.rifqimfahmi.foorballapps.util.getLeaguesId
 import com.rifqimfahmi.foorballapps.vo.Match
@@ -17,6 +18,7 @@ import com.rifqimfahmi.foorballapps.vo.Team
  * Created by Rifqi Mulya Fahmi on 21/11/18.
  */
 
+@OpenForTesting
 class MatchesViewModel(context: Application, sportRepository: SportRepository) : AndroidViewModel(context) {
 
     // LiveData for league categories
