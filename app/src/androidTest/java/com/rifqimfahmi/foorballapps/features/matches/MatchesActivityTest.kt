@@ -1,5 +1,6 @@
 package com.rifqimfahmi.foorballapps.features.matches
 
+import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -9,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
+import androidx.test.runner.intercepting.SingleActivityFactory
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.util.TaskExecutorWithIdlingResourceRule
 import com.rifqimfahmi.foorballapps.util.TestUtil
@@ -22,6 +24,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+import java.lang.ref.WeakReference
 
 /*
  * Created by Rifqi Mulya Fahmi on 22/12/18.
@@ -36,14 +39,17 @@ class MatchesActivityTest {
     @JvmField
     val executorRule = TaskExecutorWithIdlingResourceRule()
 
+    val activityFactory = object : SingleActivityFactory<MatchesActivity>(MatchesActivity::class.java) {
+        override fun create(intent: Intent?): MatchesActivity {
+            val activity = MatchesActivity()
+            activity.viewModelFactory = ViewModelUtil.createFor(viewModel)
+            return activity
+        }
+    }
+
     @Rule
     @JvmField
-    var activityRule =
-        object : ActivityTestRule<MatchesActivity>(MatchesActivity::class.java, true, false) {
-            override fun beforeActivityLaunched() {
-                MatchesActivity.viewModelFactory = ViewModelUtil.createFor(viewModel)
-            }
-        }
+    var activityRule = ActivityTestRule<MatchesActivity>(activityFactory, true, false)
 
     private val teams = MutableLiveData<Resource<List<Team>>>()
     private val favTeams = MutableLiveData<Resource<List<Team>>>()

@@ -1,6 +1,7 @@
 package com.rifqimfahmi.foorballapps.features.matches
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_matches.*
 class MatchesActivity : AppCompatActivity() {
 
     lateinit var viewModel: MatchesViewModel
+    var viewModelFactory: ViewModelProvider.Factory? = null // for testing
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +39,4 @@ class MatchesActivity : AppCompatActivity() {
     }
 
     fun obtainViewModel(): MatchesViewModel = obtainViewModel(MatchesViewModel::class.java, viewModelFactory)
-
-    companion object {
-        var viewModelFactory: ViewModelProvider.Factory? = null
-    }
 }
