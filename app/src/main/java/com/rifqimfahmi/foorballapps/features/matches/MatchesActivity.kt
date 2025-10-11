@@ -9,28 +9,30 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.data.source.local.SportDb
+import com.rifqimfahmi.foorballapps.databinding.ActivityMatchesBinding
 import com.rifqimfahmi.foorballapps.features.matches.adapter.MainPagerAdapter
 import com.rifqimfahmi.foorballapps.util.obtainViewModel
-import kotlinx.android.synthetic.main.activity_matches.*
 
 class MatchesActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMatchesBinding
     lateinit var viewModel: MatchesViewModel
     var viewModelFactory: ViewModelProvider.Factory? = null // for testing
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_matches)
+        binding = ActivityMatchesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(tb_main)
+        setSupportActionBar(binding.tbMain)
 
-        tb_main.setTitle(R.string.app_name)
-        vpMain.adapter = MainPagerAdapter(supportFragmentManager)
-        btmNavMain.setOnNavigationItemSelectedListener {
+        binding.tbMain.setTitle(R.string.app_name)
+        binding.vpMain.adapter = MainPagerAdapter(supportFragmentManager)
+        binding.btmNavMain.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.matches -> vpMain.setCurrentItem(0, false)
-                R.id.teams -> vpMain.setCurrentItem(1, false)
-                R.id.favorites -> vpMain.setCurrentItem(2, false)
+                R.id.matches -> binding.vpMain.setCurrentItem(0, false)
+                R.id.teams -> binding.vpMain.setCurrentItem(1, false)
+                R.id.favorites -> binding.vpMain.setCurrentItem(2, false)
             }
             true
         }

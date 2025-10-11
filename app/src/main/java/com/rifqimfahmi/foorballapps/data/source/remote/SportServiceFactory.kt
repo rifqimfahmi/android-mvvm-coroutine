@@ -2,6 +2,8 @@ package com.rifqimfahmi.foorballapps.data.source.remote
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.rifqimfahmi.foorballapps.util.LiveDataCallAdapterFactory
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,14 +19,18 @@ class SportServiceFactory {
         @Volatile
         private var INSTANCE: SportService? = null
 
-        private const val BASE_URL = "https://www.thesportsdb.com/api/v1/json/1/"
+        private const val BASE_URL = "https://www.thesportsdb.com/api/v1/json/123/"
 
         fun getService() : SportService {
             return INSTANCE ?: synchronized(this) {
+                val moshi = Moshi.Builder()
+                    .add(KotlinJsonAdapterFactory())
+                    .build()
+                
                 val instance = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(provideOkHttpClient())
-                    .addConverterFactory(MoshiConverterFactory.create())
+                    .addConverterFactory(MoshiConverterFactory.create(moshi))
                     .addCallAdapterFactory(LiveDataCallAdapterFactory())
                     .build()
                     .create(SportService::class.java)

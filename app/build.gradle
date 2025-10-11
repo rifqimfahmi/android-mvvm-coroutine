@@ -2,22 +2,25 @@ apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlin-allopen'
+
+// NOTE: kotlin-android-extensions is deprecated and has been removed.
+// The project uses synthetic properties which need to be migrated to View Binding.
+// For now, the project will not compile until View Binding migration is completed.
 
 allOpen {
     annotation "com.rifqimfahmi.foorballapps.testing.OpenClass"
 }
 
 android {
-    compileSdkVersion 28
+    namespace "com.rifqimfahmi.foorballapps"
+    compileSdk 34
     defaultConfig {
         applicationId "com.rifqimfahmi.foorballapps"
-        minSdkVersion 17
-        targetSdkVersion 28
+        minSdk 21
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -28,6 +31,16 @@ android {
                                      "$projectDir/schemas".toString()]
             }
         }
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
     buildTypes {
         release {
@@ -43,18 +56,18 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito:mockito-core:$rootProject.mockito"
-    testImplementation "androidx.arch.core:core-testing:$rootProject.lifecycle_version"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
     testImplementation "androidx.room:room-testing:$rootProject.room_version"
 
     androidTestImplementation "org.mockito:mockito-core:$rootProject.mockito"
     androidTestImplementation "org.mockito:mockito-android:$rootProject.mockito"
-    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.lifecycle_version"
+    androidTestImplementation "androidx.arch.core:core-testing:2.2.0"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.test_runner"
     androidTestImplementation "androidx.test:rules:$rootProject.test_rules"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espresso"
@@ -71,24 +84,25 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.retrofit"
+    implementation "com.squareup.moshi:moshi:$rootProject.moshi"
     implementation "com.squareup.moshi:moshi-kotlin:$rootProject.moshi"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$rootProject.retrofit_coroutine_adapter"
-
-    // Network image loader
-    implementation "com.squareup.picasso:picasso:$rootProject.picasso"
 
     // room
     implementation "androidx.room:room-runtime:$rootProject.room_version"
     kapt "androidx.room:room-compiler:$rootProject.room_version"
 
     // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycle_version"
-    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.lifecycle_version"
 
     // OKHttp
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpVersion"
-    implementation "com.squareup.okhttp3:okhttp-urlconnection:$rootProject.okHttpVersion"
+    
+    // SwipeRefreshLayout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }
 
 // enable all open for debug builds only

@@ -7,27 +7,29 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.rifqimfahmi.foorballapps.R
+import com.rifqimfahmi.foorballapps.databinding.ActivityPlayerDetailBinding
 import com.rifqimfahmi.foorballapps.util.obtainViewModel
 import com.rifqimfahmi.foorballapps.vo.Player
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_player_detail.*
 
 class PlayerDetailActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityPlayerDetailBinding
     private lateinit var viewModel: PlayerViewModel
-    private val playerId: String by lazy { intent.getStringExtra(ARG_KEY_PLAYER_ID) }
+    private val playerId: String by lazy { intent.getStringExtra(ARG_KEY_PLAYER_ID) ?: "" }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player_detail)
+        binding = ActivityPlayerDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initToolbar()
         initData()
     }
 
     private fun initToolbar() {
-        setSupportActionBar(tbPlayer)
+        setSupportActionBar(binding.tbPlayer)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -43,11 +45,11 @@ class PlayerDetailActivity : AppCompatActivity() {
 
         supportActionBar?.title = player.strPlayer
         with(player) {
-            Picasso.get().load(strFanart1).into(ivArt)
-            tvWeight.text = getWeight()
-            tvHeight.text = getHeight()
-            tvRole.text = strPosition
-            tvDesc.text = strDescriptionEN
+            Picasso.get().load(strFanart1).into(binding.ivArt)
+            binding.tvWeight.text = getWeight()
+            binding.tvHeight.text = getHeight()
+            binding.tvRole.text = strPosition
+            binding.tvDesc.text = strDescriptionEN
         }
     }
 

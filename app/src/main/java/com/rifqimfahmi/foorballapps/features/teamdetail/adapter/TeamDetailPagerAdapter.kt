@@ -10,7 +10,7 @@ import com.rifqimfahmi.foorballapps.features.teamdetail.TeamPlayerFragment
  * Created by Rifqi Mulya Fahmi on 08/12/18.
  */
 
-class TeamDetailPagerAdapter(fm: FragmentManager?, private val teamId: String) : FragmentPagerAdapter(fm) {
+class TeamDetailPagerAdapter(fm: FragmentManager, private val teamId: String) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {

@@ -12,25 +12,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.rifqimfahmi.foorballapps.R
+import com.rifqimfahmi.foorballapps.databinding.ActivityMatchDetailBinding
 import com.rifqimfahmi.foorballapps.util.obtainViewModel
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.rifqimfahmi.foorballapps.vo.Team
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_match_detail.*
 
 class MatchDetailActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMatchDetailBinding
     private lateinit var viewModel: MatchViewModel
     private var menu: Menu? = null
 
-    val idEvent: String by lazy { intent.getStringExtra(ARG_KEY_ID_EVENT) }
-    val idHomeTeam: String by lazy { intent.getStringExtra(ARG_KEY_ID_HOME_TEAM) }
-    val idAwayTeam: String by lazy { intent.getStringExtra(ARG_KEY_ID_AWAY_TEAM) }
+    val idEvent: String by lazy { intent.getStringExtra(ARG_KEY_ID_EVENT) ?: "" }
+    val idHomeTeam: String by lazy { intent.getStringExtra(ARG_KEY_ID_HOME_TEAM) ?: "" }
+    val idAwayTeam: String by lazy { intent.getStringExtra(ARG_KEY_ID_AWAY_TEAM) ?: "" }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_match_detail)
+        binding = ActivityMatchDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initData()
         setupToolbar()
@@ -50,8 +52,8 @@ class MatchDetailActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 true
@@ -65,7 +67,7 @@ class MatchDetailActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(tb_detail)
+        setSupportActionBar(binding.tbDetail)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -91,51 +93,51 @@ class MatchDetailActivity : AppCompatActivity() {
     }
 
     private fun showMessage(message: String) {
-        Snackbar.make(content_container, message, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(binding.contentContainer, message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun setupMatchDetail(resource: Resource<Match>?) {
         val match = resource?.data ?: return
         with (match) {
-            tv_date.text = getDate()
-            tv_hour.text = getHour()
-            tv_club1.text = strHomeTeam
-            tv_score1.text = intHomeScore
-            tv_club2.text = strAwayTeam
-            tv_score2.text = intAwayScore
+            binding.tvDate.text = getDate()
+            binding.tvHour.text = getHour()
+            binding.tvClub1.text = strHomeTeam
+            binding.tvScore1.text = intHomeScore
+            binding.tvClub2.text = strAwayTeam
+            binding.tvScore2.text = intAwayScore
 
-            tv_goals_home.text = format(strHomeGoalDetails)
-            tv_goals_away.text = format(strAwayGoalDetails)
-            tv_shots_home.text = intHomeShots ?: "-"
-            tv_shots_away.text = intAwayShots ?: "-"
+            binding.tvGoalsHome.text = format(strHomeGoalDetails)
+            binding.tvGoalsAway.text = format(strAwayGoalDetails)
+            binding.tvShotsHome.text = intHomeShots ?: "-"
+            binding.tvShotsAway.text = intAwayShots ?: "-"
 
-            tv_gk_home.text = format(strHomeLineupGoalkeeper)
-            tv_gk_away.text = format(strAwayLineupGoalkeeper)
+            binding.tvGkHome.text = format(strHomeLineupGoalkeeper)
+            binding.tvGkAway.text = format(strAwayLineupGoalkeeper)
 
-            tv_defense_home.text = format(strHomeLineupDefense)
-            tv_defense_away.text = format(strAwayLineupDefense)
+            binding.tvDefenseHome.text = format(strHomeLineupDefense)
+            binding.tvDefenseAway.text = format(strAwayLineupDefense)
 
-            tv_midfield_home.text = format(strHomeLineupMidfield)
-            tv_midfield_away.text = format(strAwayLineupMidfield)
+            binding.tvMidfieldHome.text = format(strHomeLineupMidfield)
+            binding.tvMidfieldAway.text = format(strAwayLineupMidfield)
 
-            tv_forward_home.text = format(strHomeLineupForward)
-            tv_forward_away.text = format(strAwayLineupForward)
+            binding.tvForwardHome.text = format(strHomeLineupForward)
+            binding.tvForwardAway.text = format(strAwayLineupForward)
 
-            tv_substitute_home.text = format(strHomeLineupSubstitutes)
-            tv_substitute_away.text = format(strAwayLineupSubstitutes)
+            binding.tvSubstituteHome.text = format(strHomeLineupSubstitutes)
+            binding.tvSubstituteAway.text = format(strAwayLineupSubstitutes)
         }
 
     }
 
     private fun setupAwayTeam(resource: Resource<Team>?) {
         resource?.data?.strTeamBadge?.let {
-            Picasso.get().load(it).into(iv_club2)
+            Picasso.get().load(it).into(binding.ivClub2)
         }
     }
 
     private fun setupHomeTeam(resource: Resource<Team>?) {
         resource?.data?.strTeamBadge?.let {
-            Picasso.get().load(it).into(iv_club1)
+            Picasso.get().load(it).into(binding.ivClub1)
         }
     }
 

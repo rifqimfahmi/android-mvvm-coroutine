@@ -9,7 +9,7 @@ import com.rifqimfahmi.foorballapps.features.matches.MatchesListFragment
  * Created by Rifqi Mulya Fahmi on 19/11/18.
  */
  
-class MatchesPagerAdapter(fm: FragmentManager?) : FragmentPagerAdapter(fm) {
+class MatchesPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {

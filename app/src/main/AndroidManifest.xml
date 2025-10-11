@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.rifqimfahmi.foorballapps">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,7 +15,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="n">
-        <activity android:name=".features.matches.MatchesActivity">
+        <activity 
+            android:name=".features.matches.MatchesActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,7 +27,9 @@
         <activity android:name=".features.matchdetail.MatchDetailActivity" />
         <activity android:name=".features.teamdetail.TeamDetailActivity" />
         <activity android:name=".features.playerdetail.PlayerDetailActivity" />
-        <activity android:name=".features.searchmatch.SearchMatchActivity">
+        <activity 
+            android:name=".features.searchmatch.SearchMatchActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -35,7 +38,9 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable_match" />
         </activity>
-        <activity android:name=".features.searchteam.SearchTeamActivity">
+        <activity 
+            android:name=".features.searchteam.SearchTeamActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

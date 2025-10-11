@@ -9,8 +9,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.vo.Resource
-import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.list_items.*
+import android.widget.Toolbar
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.RecyclerView
 
 /*
  * Created by Rifqi Mulya Fahmi on 11/12/18.
@@ -18,12 +19,19 @@ import kotlinx.android.synthetic.main.list_items.*
 
 abstract class BaseSearchActivity<T> : AppCompatActivity(), SearchView.OnQueryTextListener {
 
-    val sQuery: String by lazy { intent.getStringExtra(SearchManager.QUERY) }
+    val sQuery: String? by lazy { intent.getStringExtra(SearchManager.QUERY) }
     private lateinit var searchView: SearchView
+    private lateinit var tbSearch: androidx.appcompat.widget.Toolbar
+    private lateinit var srlList: SwipeRefreshLayout
+    protected lateinit var rvList: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
+        tbSearch = findViewById(R.id.tbSearch)
+        srlList = findViewById(R.id.srl_list)
+        rvList = findViewById(R.id.rv_list)
 
         setupToolbar()
         setupData()
@@ -36,8 +44,8 @@ abstract class BaseSearchActivity<T> : AppCompatActivity(), SearchView.OnQueryTe
     }
 
     private fun setupList() {
-        srl_list.isEnabled = false
-        rv_list.layoutManager = LinearLayoutManager(this)
+        srlList.isEnabled = false
+        rvList.layoutManager = LinearLayoutManager(this)
         setupAdapter()
     }
 
@@ -53,8 +61,8 @@ abstract class BaseSearchActivity<T> : AppCompatActivity(), SearchView.OnQueryTe
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 return true

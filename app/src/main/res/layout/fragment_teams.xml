@@ -14,5 +14,7 @@
         android:paddingEnd="6dp"
         android:paddingBottom="12dp" />
 
-    <include layout="@layout/list_items" />
+    <include
+        android:id="@+id/list_items"
+        layout="@layout/list_items" />
 </LinearLayout>

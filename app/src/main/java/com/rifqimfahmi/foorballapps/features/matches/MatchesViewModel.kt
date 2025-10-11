@@ -5,7 +5,8 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.rifqimfahmi.foorballapps.data.source.SportRepository
 import com.rifqimfahmi.foorballapps.testing.OpenForTesting
 import com.rifqimfahmi.foorballapps.util.AbsentLiveData
@@ -27,7 +28,7 @@ class MatchesViewModel(context: Application, sportRepository: SportRepository) :
 
     val context: Context = context.applicationContext // application Context to avoid leaks
 
-    val nextMatches: LiveData<Resource<List<Match>>> = Transformations.switchMap(matchFilterId) { leagueId ->
+    val nextMatches: LiveData<Resource<List<Match>>> = matchFilterId.switchMap { leagueId ->
         if (leagueId.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {
@@ -35,7 +36,7 @@ class MatchesViewModel(context: Application, sportRepository: SportRepository) :
         }
     }
 
-    val prevMatch: LiveData<Resource<List<Match>>> = Transformations.switchMap(matchFilterId) { leagueId ->
+    val prevMatch: LiveData<Resource<List<Match>>> = matchFilterId.switchMap { leagueId ->
         if (leagueId.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {
@@ -43,7 +44,7 @@ class MatchesViewModel(context: Application, sportRepository: SportRepository) :
         }
     }
 
-    val teams: LiveData<Resource<List<Team>>> = Transformations.switchMap(teamFilterId) { leagueId ->
+    val teams: LiveData<Resource<List<Team>>> = teamFilterId.switchMap { leagueId ->
         if (leagueId.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {

@@ -14,7 +14,7 @@ import com.rifqimfahmi.foorballapps.features.teamdetail.adapter.PlayerAdapter
 import com.rifqimfahmi.foorballapps.vo.Player
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.rifqimfahmi.foorballapps.vo.Team
-import kotlinx.android.synthetic.main.list_items.*
+import com.rifqimfahmi.foorballapps.databinding.ListItemsBinding
 
 /*
  * Created by Rifqi Mulya Fahmi on 08/12/18.
@@ -22,13 +22,14 @@ import kotlinx.android.synthetic.main.list_items.*
 
 class TeamPlayerFragment : Fragment() {
 
+    private lateinit var binding: ListItemsBinding
     private lateinit var viewModel: TeamViewModel
     private val teamId: String? by lazy { arguments?.getString(ARG_KEY_TEAM_ID) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return LayoutInflater.from(context).inflate(R.layout.list_items, container, false).also {
-            viewModel = (activity as TeamDetailActivity).obtainViewModel()
-        }
+        binding = ListItemsBinding.inflate(inflater, container, false)
+        viewModel = (activity as TeamDetailActivity).obtainViewModel()
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -39,13 +40,13 @@ class TeamPlayerFragment : Fragment() {
     }
 
     private fun initData() {
-        viewModel.players.observe(this, Observer { res -> (rv_list.adapter as PlayerAdapter).submitData(res) })
+        viewModel.players.observe(this, Observer { res -> (binding.rvList.adapter as PlayerAdapter).submitData(res) })
     }
 
     private fun setupList() {
-        srl_list.isEnabled = false
-        rv_list.layoutManager = LinearLayoutManager(context)
-        rv_list.adapter = PlayerAdapter(context, Resource.loading(null)) {
+        binding.srlList.isEnabled = false
+        binding.rvList.layoutManager = LinearLayoutManager(context)
+        binding.rvList.adapter = PlayerAdapter(context, Resource.loading(null)) {
             startActivity(PlayerDetailActivity.getStartIntent(context, it.idPlayer))
         }
     }

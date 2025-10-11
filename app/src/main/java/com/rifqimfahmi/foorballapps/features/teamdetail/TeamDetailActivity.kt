@@ -15,18 +15,20 @@ import com.rifqimfahmi.foorballapps.util.obtainViewModel
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.rifqimfahmi.foorballapps.vo.Team
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_team_detail.*
+import com.rifqimfahmi.foorballapps.databinding.ActivityTeamDetailBinding
 
 class TeamDetailActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityTeamDetailBinding
     private lateinit var viewModel: TeamViewModel
     private var menu: Menu? = null
 
-    val teamId: String by lazy { intent.getStringExtra(ARG_KEY_MATCH_ID) }
+    val teamId: String by lazy { intent.getStringExtra(ARG_KEY_MATCH_ID) ?: "" }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_team_detail)
+        binding = ActivityTeamDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         setupToolbar()
         setupPager()
@@ -47,8 +49,8 @@ class TeamDetailActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 true
@@ -82,16 +84,16 @@ class TeamDetailActivity : AppCompatActivity() {
     }
 
     private fun showMessage(message: String) {
-        Snackbar.make(content_container, message, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(binding.contentContainer, message, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun setupPager() {
-        vpTeamDetail.adapter = TeamDetailPagerAdapter(supportFragmentManager, teamId)
-        tabTeam.setupWithViewPager(vpTeamDetail)
+        binding.vpTeamDetail.adapter = TeamDetailPagerAdapter(supportFragmentManager, teamId)
+        binding.tabTeam.setupWithViewPager(binding.vpTeamDetail)
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(tbTeam)
+        setSupportActionBar(binding.tbTeam)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -100,10 +102,10 @@ class TeamDetailActivity : AppCompatActivity() {
         with(team) {
             supportActionBar?.title = strTeam
             strTeamBadge?.let {
-                Picasso.get().load(it).into(ivClub)
+                Picasso.get().load(it).into(binding.ivClub)
             }
-            tvYear.text = getFormedYear()
-            tvStadium.text = strStadium
+            binding.tvYear.text = getFormedYear()
+            binding.tvStadium.text = strStadium
         }
     }
 

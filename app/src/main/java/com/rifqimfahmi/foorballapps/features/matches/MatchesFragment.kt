@@ -11,8 +11,7 @@ import androidx.fragment.app.Fragment
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.features.matches.adapter.MatchesPagerAdapter
 import com.rifqimfahmi.foorballapps.features.searchmatch.SearchMatchActivity
-import kotlinx.android.synthetic.main.fragment_matches.*
-import kotlinx.android.synthetic.main.fragment_matches.view.*
+import com.rifqimfahmi.foorballapps.databinding.FragmentMatchesBinding
 
 /*
  * Created by Rifqi Mulya Fahmi on 19/11/18.
@@ -20,13 +19,14 @@ import kotlinx.android.synthetic.main.fragment_matches.view.*
 
 class MatchesFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
+    private lateinit var binding: FragmentMatchesBinding
     private lateinit var viewModel: MatchesViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_matches, container, false).also {
-            viewModel = (activity as MatchesActivity).obtainViewModel()
-            it.sp_leagues.onItemSelectedListener = this
-        }
+        binding = FragmentMatchesBinding.inflate(inflater, container, false)
+        viewModel = (activity as MatchesActivity).obtainViewModel()
+        binding.spLeagues.onItemSelectedListener = this
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -36,8 +36,8 @@ class MatchesFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun setupViewPager() {
-        vpMatches.adapter = MatchesPagerAdapter(childFragmentManager)
-        tabMatches.setupWithViewPager(vpMatches)
+        binding.vpMatches.adapter = MatchesPagerAdapter(childFragmentManager)
+        binding.tabMatches.setupWithViewPager(binding.vpMatches)
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) { }
@@ -46,12 +46,12 @@ class MatchesFragment : Fragment(), AdapterView.OnItemSelectedListener {
         viewModel.setMatchesFilterBy(position)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.main_menu, menu)
+        inflater.inflate(R.menu.main_menu, menu)
 
         val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        (menu?.findItem(R.id.menu_search)?.actionView as SearchView).apply {
+        (menu.findItem(R.id.menu_search)?.actionView as SearchView).apply {
             setSearchableInfo(searchManager.getSearchableInfo(ComponentName(context, SearchMatchActivity::class.java)))
         }
     }

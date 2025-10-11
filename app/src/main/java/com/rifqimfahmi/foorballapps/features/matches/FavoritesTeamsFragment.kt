@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rifqimfahmi.foorballapps.R
+import com.rifqimfahmi.foorballapps.databinding.ListItemsBinding
 import com.rifqimfahmi.foorballapps.features.matches.adapter.TeamAdapter
 import com.rifqimfahmi.foorballapps.features.teamdetail.TeamDetailActivity
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.rifqimfahmi.foorballapps.vo.Team
-import kotlinx.android.synthetic.main.list_items.*
 
 /*
  * Created by Rifqi Mulya Fahmi on 09/12/18.
@@ -20,12 +20,13 @@ import kotlinx.android.synthetic.main.list_items.*
 
 class FavoritesTeamsFragment : Fragment() {
 
+    private lateinit var binding: ListItemsBinding
     private lateinit var viewModel: MatchesViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.list_items, container, false).also {
-            viewModel = (activity as MatchesActivity).obtainViewModel()
-        }
+        binding = ListItemsBinding.inflate(inflater, container, false)
+        viewModel = (activity as MatchesActivity).obtainViewModel()
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -37,9 +38,9 @@ class FavoritesTeamsFragment : Fragment() {
 
 
     private fun setupList() {
-        srl_list.isEnabled = false
-        rv_list.layoutManager = LinearLayoutManager(context)
-        rv_list.adapter = TeamAdapter(context, Resource.loading(null)) {
+        binding.srlList.isEnabled = false
+        binding.rvList.layoutManager = LinearLayoutManager(context)
+        binding.rvList.adapter = TeamAdapter(context, Resource.loading(null)) {
             startActivity(TeamDetailActivity.getStartIntent(context, it.idTeam))
         }
     }
@@ -49,8 +50,8 @@ class FavoritesTeamsFragment : Fragment() {
     }
 
     private fun updateData(res: Resource<List<Team>>?) {
-        if (rv_list == null || res == null) return
-        (rv_list.adapter as TeamAdapter).submitData(res)
+        if (binding.rvList == null || res == null) return
+        (binding.rvList.adapter as TeamAdapter).submitData(res)
     }
 
     companion object {

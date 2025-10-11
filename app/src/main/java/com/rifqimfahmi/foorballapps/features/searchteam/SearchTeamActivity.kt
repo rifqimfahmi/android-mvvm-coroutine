@@ -7,14 +7,14 @@ import com.rifqimfahmi.foorballapps.features.teamdetail.TeamDetailActivity
 import com.rifqimfahmi.foorballapps.util.obtainViewModel
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.rifqimfahmi.foorballapps.vo.Team
-import kotlinx.android.synthetic.main.list_items.*
+import com.rifqimfahmi.foorballapps.databinding.ListItemsBinding
 
 class SearchTeamActivity : BaseSearchActivity<Team>() {
 
     private lateinit var viewModel: SearchTeamViewModel
 
     override fun setupAdapter() {
-        rv_list.adapter = TeamAdapter(this, Resource.loading(null)) {
+        rvList.adapter = TeamAdapter(this, Resource.loading(null)) {
             startActivity(TeamDetailActivity.getStartIntent(this, it.idTeam))
         }
     }
@@ -32,8 +32,8 @@ class SearchTeamActivity : BaseSearchActivity<Team>() {
     }
 
     override fun updateData(data: Resource<List<Team>>?) {
-        if (data == null || rv_list == null) return
-        (rv_list.adapter as TeamAdapter).submitData(data)
+        if (data == null || rvList == null) return
+        (rvList.adapter as TeamAdapter).submitData(data)
     }
 
     private fun obtainViewModel() = obtainViewModel(SearchTeamViewModel::class.java)

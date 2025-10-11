@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rifqimfahmi.foorballapps.R
+import com.rifqimfahmi.foorballapps.databinding.ListItemsBinding
 import com.rifqimfahmi.foorballapps.features.matchdetail.MatchDetailActivity
 import com.rifqimfahmi.foorballapps.features.matches.adapter.MatchesAdapter
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
-import kotlinx.android.synthetic.main.list_items.*
 
 /*
  * Created by Rifqi Mulya Fahmi on 19/11/18.
@@ -20,12 +20,13 @@ import kotlinx.android.synthetic.main.list_items.*
 
 class FavoriteMatchesFragment : Fragment() {
 
+    private lateinit var binding: ListItemsBinding
     private lateinit var viewModel: MatchesViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.list_items, container, false).also {
-            viewModel = (activity as MatchesActivity).obtainViewModel()
-        }
+        binding = ListItemsBinding.inflate(inflater, container, false)
+        viewModel = (activity as MatchesActivity).obtainViewModel()
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -36,9 +37,9 @@ class FavoriteMatchesFragment : Fragment() {
     }
 
     private fun setupList() {
-        srl_list.isEnabled = false
-        rv_list.layoutManager = LinearLayoutManager(context)
-        rv_list.adapter = MatchesAdapter(context, Resource.loading(null)) {
+        binding.srlList.isEnabled = false
+        binding.rvList.layoutManager = LinearLayoutManager(context)
+        binding.rvList.adapter = MatchesAdapter(context, Resource.loading(null)) {
             context?.startActivity(
                 MatchDetailActivity.getStartIntent(context, it.idEvent, it.idHomeTeam, it.idAwayTeam)
             )
@@ -52,8 +53,8 @@ class FavoriteMatchesFragment : Fragment() {
     }
 
     private fun updateData(res: Resource<List<Match>>?) {
-        if (rv_list == null || res == null) return
-        (rv_list.adapter as MatchesAdapter).submitData(res)
+        if (binding.rvList == null || res == null) return
+        (binding.rvList.adapter as MatchesAdapter).submitData(res)
     }
 
     companion object {

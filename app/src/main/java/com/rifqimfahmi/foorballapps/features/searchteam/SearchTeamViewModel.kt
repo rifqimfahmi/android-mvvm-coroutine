@@ -4,7 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.rifqimfahmi.foorballapps.data.source.SportRepository
 import com.rifqimfahmi.foorballapps.util.AbsentLiveData
 import com.rifqimfahmi.foorballapps.vo.Resource
@@ -17,7 +18,7 @@ import com.rifqimfahmi.foorballapps.vo.Team
 class SearchTeamViewModel(ctx: Application, sportRepository: SportRepository) : AndroidViewModel(ctx) {
 
     private val query = MutableLiveData<String>()
-    val result: LiveData<Resource<List<Team>>> = Transformations.switchMap(query) { q ->
+    val result: LiveData<Resource<List<Team>>> = query.switchMap { q ->
         if (q.isNullOrEmpty()) {
             AbsentLiveData.create()
         } else {

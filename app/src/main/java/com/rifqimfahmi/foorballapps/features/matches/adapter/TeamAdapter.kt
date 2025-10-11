@@ -2,7 +2,6 @@ package com.rifqimfahmi.foorballapps.features.matches.adapter
 
 import android.animation.AnimatorInflater
 import android.content.Context
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import com.rifqimfahmi.foorballapps.features.base.BaseRVAdapter
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.rifqimfahmi.foorballapps.vo.Team
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.iteam_team.view.*
+import com.rifqimfahmi.foorballapps.databinding.IteamTeamBinding
 
 /*
  * Created by Rifqi Mulya Fahmi on 07/12/18.
@@ -22,7 +21,8 @@ class TeamAdapter(ctx: Context?, resource: Resource<List<Team>>, private val cli
     : BaseRVAdapter<Team>(ctx, resource) {
 
     override fun createDataViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        return TeamItem(LayoutInflater.from(ctx).inflate(R.layout.iteam_team, parent, false))
+        val binding = IteamTeamBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return TeamItem(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -31,19 +31,15 @@ class TeamAdapter(ctx: Context?, resource: Resource<List<Team>>, private val cli
         }
     }
 
-    inner class TeamItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class TeamItem(private val binding: IteamTeamBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(nTeam: Team?, clickListener: (Team) -> Unit) {
             nTeam?.let { team ->
-                with(itemView) {
-                    if (!team.strTeamBadge.isNullOrEmpty()) { Picasso.get().load(team.strTeamBadge).into(iv_club) }
-                    tv_club.text = team.strTeam
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        itemView.stateListAnimator =
-                                AnimatorInflater.loadStateListAnimator(this.context, R.animator.lift_on_touch)
-                    }
-                    setOnClickListener {
-                        clickListener(team)
-                    }
+                if (!team.strTeamBadge.isNullOrEmpty()) { Picasso.get().load(team.strTeamBadge).into(binding.ivClub) }
+                binding.tvClub.text = team.strTeam
+                binding.root.stateListAnimator =
+                        AnimatorInflater.loadStateListAnimator(binding.root.context, R.animator.lift_on_touch)
+                binding.root.setOnClickListener {
+                    clickListener(team)
                 }
             }
         }

@@ -2,7 +2,6 @@ package com.rifqimfahmi.foorballapps.features.teamdetail.adapter
 
 import android.animation.AnimatorInflater
 import android.content.Context
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import com.rifqimfahmi.foorballapps.features.base.BaseRVAdapter
 import com.rifqimfahmi.foorballapps.vo.Player
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.item_player.view.*
+import com.rifqimfahmi.foorballapps.databinding.ItemPlayerBinding
 
 /*
  * Created by Rifqi Mulya Fahmi on 08/12/18.
@@ -21,7 +20,8 @@ import kotlinx.android.synthetic.main.item_player.view.*
 class PlayerAdapter(ctx: Context?, resource: Resource<List<Player>>, val clickListener: (Player) -> Unit) :
     BaseRVAdapter<Player>(ctx, resource) {
     override fun createDataViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        return PlayerItem(LayoutInflater.from(ctx).inflate(R.layout.item_player, parent, false))
+        val binding = ItemPlayerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PlayerItem(binding)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -30,24 +30,20 @@ class PlayerAdapter(ctx: Context?, resource: Resource<List<Player>>, val clickLi
         }
     }
 
-    inner class PlayerItem(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class PlayerItem(private val binding: ItemPlayerBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(res: Player?, clickListener: (Player) -> Unit) {
             res ?: return
-            with(itemView) {
-                if (!res.strCutout.isNullOrBlank()) {
-                    Picasso.get().load(res.strCutout).into(ivPhoto)
-                } else {
-                    Picasso.get().load(res.strThumb).into(ivPhoto)
-                }
-                tvName.text = res.strPlayer
-                tvRole.text = res.strPosition
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    stateListAnimator = AnimatorInflater.loadStateListAnimator(this.context, R.animator.lift_on_touch)
-                }
-
-                setOnClickListener { clickListener(res) }
+            if (!res.strCutout.isNullOrBlank()) {
+                Picasso.get().load(res.strCutout).into(binding.ivPhoto)
+            } else {
+                Picasso.get().load(res.strThumb).into(binding.ivPhoto)
             }
+            binding.tvName.text = res.strPlayer
+            binding.tvRole.text = res.strPosition
+
+            binding.root.stateListAnimator = AnimatorInflater.loadStateListAnimator(binding.root.context, R.animator.lift_on_touch)
+
+            binding.root.setOnClickListener { clickListener(res) }
         }
     }
 }

@@ -4,7 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.rifqimfahmi.foorballapps.data.source.SportRepository
 import com.rifqimfahmi.foorballapps.util.AbsentLiveData
 
@@ -18,7 +19,7 @@ class PlayerViewModel(ctx: Application, sportRepository: SportRepository) : Andr
 
     private val playerId = MutableLiveData<String>()
 
-    val player = Transformations.switchMap(playerId) { id ->
+    val player = playerId.switchMap { id ->
         if (id.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {

@@ -3,7 +3,6 @@ package com.rifqimfahmi.foorballapps.util
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.rifqimfahmi.foorballapps.ViewModelFactory
 
 /*
@@ -15,8 +14,8 @@ fun <T : ViewModel> AppCompatActivity.obtainViewModel(
     viewModelFactory: ViewModelProvider.Factory? = null
 ) : T {
     return if (viewModelFactory == null) {
-        ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(viewModelClass)
+        ViewModelProvider(this, ViewModelFactory.getInstance(application))[viewModelClass]
     } else {
-        ViewModelProviders.of(this, viewModelFactory).get(viewModelClass)
+        ViewModelProvider(this, viewModelFactory)[viewModelClass]
     }
 }

@@ -3,7 +3,7 @@ package com.rifqimfahmi.foorballapps.data.source.local
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.rifqimfahmi.foorballapps.data.source.local.subset.FavoriteCount
 import com.rifqimfahmi.foorballapps.features.matches.MatchesListFragment
@@ -63,19 +63,19 @@ interface SportDao {
     @Query("SELECT * FROM players WHERE idPlayer = :playerId")
     fun getPlayer(playerId: String): LiveData<Player>
 
-    @Insert(onConflict = REPLACE)
-    fun saveMatches(matches: List<Match?>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveMatches(matches: List<Match>)
 
-    @Insert(onConflict = REPLACE)
-    fun saveTeams(it: List<Team?>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveTeams(it: List<Team>)
 
-    @Insert(onConflict = REPLACE)
-    fun savePlayers(players: List<Player?>)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun savePlayers(players: List<Player>)
 
-    @Insert(onConflict = REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addToFavoriteMatch(favMatch: FavoriteMatch)
 
-    @Insert(onConflict = REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addToFavoriteTeam(favoriteTeam: FavoriteTeam)
 
     @Query("SELECT * FROM matches WHERE strEvent LIKE :query ORDER BY dateEvent DESC")

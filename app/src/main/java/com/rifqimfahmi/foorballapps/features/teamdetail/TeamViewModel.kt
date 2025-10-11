@@ -4,7 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.rifqimfahmi.foorballapps.data.source.SportRepository
 import com.rifqimfahmi.foorballapps.util.AbsentLiveData
 import com.rifqimfahmi.foorballapps.vo.Player
@@ -19,7 +20,7 @@ class TeamViewModel(context: Application, private val sportRepository: SportRepo
 
     private val teamId = MutableLiveData<String>()
 
-    val team: LiveData<Resource<Team>> = Transformations.switchMap(teamId) { id ->
+    val team: LiveData<Resource<Team>> = teamId.switchMap { id ->
         if (id.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {
@@ -27,7 +28,7 @@ class TeamViewModel(context: Application, private val sportRepository: SportRepo
         }
     }
 
-    val players: LiveData<Resource<List<Player>>> = Transformations.switchMap(teamId) { id ->
+    val players: LiveData<Resource<List<Player>>> = teamId.switchMap { id ->
         if (id.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {
@@ -35,7 +36,7 @@ class TeamViewModel(context: Application, private val sportRepository: SportRepo
         }
     }
 
-    val isFavorite : LiveData<Boolean> = Transformations.switchMap(teamId) { id ->
+    val isFavorite : LiveData<Boolean> = teamId.switchMap { id ->
         sportRepository.isFavoriteTeam(id)
     }
 

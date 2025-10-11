@@ -5,7 +5,8 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.rifqimfahmi.foorballapps.data.source.SportRepository
 import com.rifqimfahmi.foorballapps.util.AbsentLiveData
 import com.rifqimfahmi.foorballapps.vo.Match
@@ -20,7 +21,7 @@ class SearchMatchViewModel(ctx: Application, sportRepository: SportRepository) :
     val context: Context = ctx.applicationContext
 
     private val query = MutableLiveData<String>()
-    val result: LiveData<Resource<List<Match>>> = Transformations.switchMap(query) { q ->
+    val result: LiveData<Resource<List<Match>>> = query.switchMap { q ->
         if (q.isNullOrEmpty()) {
             AbsentLiveData.create()
         } else {

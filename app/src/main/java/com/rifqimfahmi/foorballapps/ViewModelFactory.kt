@@ -21,7 +21,7 @@ class ViewModelFactory private constructor(
     private val application: Application,
     private val sportRepository: SportRepository
 ) : ViewModelProvider.NewInstanceFactory() {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T =
+    override fun <T : ViewModel> create(modelClass: Class<T>): T =
         with(modelClass) {
             when {
                 isAssignableFrom(MatchesViewModel::class.java) ->

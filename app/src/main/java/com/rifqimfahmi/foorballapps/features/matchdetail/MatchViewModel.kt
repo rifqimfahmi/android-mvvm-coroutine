@@ -5,7 +5,8 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import com.rifqimfahmi.foorballapps.data.source.SportRepository
 import com.rifqimfahmi.foorballapps.util.AbsentLiveData
 import com.rifqimfahmi.foorballapps.vo.Match
@@ -24,7 +25,7 @@ class MatchViewModel(ctx: Application, private val sportRepository: SportReposit
     private val idAwayTeam = MutableLiveData<String>()
     private val idEvent = MutableLiveData<String>()
 
-    val homeTeam : LiveData<Resource<Team>> = Transformations.switchMap(idHomeTeam) { id ->
+    val homeTeam : LiveData<Resource<Team>> = idHomeTeam.switchMap { id ->
         if (id.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {
@@ -32,7 +33,7 @@ class MatchViewModel(ctx: Application, private val sportRepository: SportReposit
         }
     }
 
-    val awayTeam : LiveData<Resource<Team>> = Transformations.switchMap(idAwayTeam) { id ->
+    val awayTeam : LiveData<Resource<Team>> = idAwayTeam.switchMap { id ->
         if (id.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {
@@ -40,7 +41,7 @@ class MatchViewModel(ctx: Application, private val sportRepository: SportReposit
         }
     }
 
-    val matchDetail : LiveData<Resource<Match>> = Transformations.switchMap(idEvent) { id ->
+    val matchDetail : LiveData<Resource<Match>> = idEvent.switchMap { id ->
         if (id.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {
@@ -48,7 +49,7 @@ class MatchViewModel(ctx: Application, private val sportRepository: SportReposit
         }
     }
 
-    val isFavorite : LiveData<Boolean> = Transformations.switchMap(idEvent) { id ->
+    val isFavorite : LiveData<Boolean> = idEvent.switchMap { id ->
         sportRepository.isFavoriteMatch(id)
     }
 

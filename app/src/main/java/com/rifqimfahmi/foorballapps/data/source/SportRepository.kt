@@ -44,7 +44,7 @@ class SportRepository(
 
                     db.runInTransaction {
                         sportDao.deleteNextMatches(leagueId)
-                        sportDao.saveMatches(matchesData)
+                        sportDao.saveMatches(matchesData.filterNotNull())
                     }
                 }
             }
@@ -72,7 +72,7 @@ class SportRepository(
 
                     db.runInTransaction {
                         sportDao.deletePrevMatches(leagueId)
-                        sportDao.saveMatches(matchesData)
+                        sportDao.saveMatches(matchesData.filterNotNull())
                     }
                 }
             }
@@ -92,7 +92,7 @@ class SportRepository(
             override fun saveCallResult(item: TeamsResponse) {
                 item.teams?.let {
                     db.runInTransaction {
-                        sportDao.saveTeams(it)
+                        sportDao.saveTeams(it.filterNotNull())
                     }
                 }
             }
@@ -111,7 +111,7 @@ class SportRepository(
             override fun saveCallResult(item: TeamsResponse) {
                 item.teams?.let {
                     db.runInTransaction {
-                        sportDao.saveTeams(it)
+                        sportDao.saveTeams(it.filterNotNull())
                     }
                 }
             }
@@ -139,7 +139,7 @@ class SportRepository(
                         }
                     }
 
-                    sportDao.saveMatches(matches)
+                    sportDao.saveMatches(matches.filterNotNull())
                 }
             }
 
@@ -157,7 +157,7 @@ class SportRepository(
 
             override fun saveCallResult(item: PlayersResponse) {
                 item.player?.let { players ->
-                    sportDao.savePlayers(players)
+                    sportDao.savePlayers(players.filterNotNull())
                 }
             }
 
@@ -241,7 +241,7 @@ class SportRepository(
             override fun saveCallResult(item: PlayersResponse) {
                 val player = item.player?.get(0)
                 player?.let {
-                    sportDao.savePlayers(item.player)
+                    sportDao.savePlayers(item.player.filterNotNull())
                 }
             }
 
@@ -262,7 +262,7 @@ class SportRepository(
                         match?.matchType = match?.defineMatchType()
                     }
 
-                    sportDao.saveMatches(matches)
+                    sportDao.saveMatches(matches.filterNotNull())
                 }
             }
 
@@ -279,7 +279,7 @@ class SportRepository(
         return object : NetworkBoundResource<List<Team>, TeamsResponse>(coroutineContext) {
             override fun saveCallResult(item: TeamsResponse) {
                 item.teams?.let { teams ->
-                    sportDao.saveTeams(teams)
+                    sportDao.saveTeams(teams.filterNotNull())
                 }
             }
 

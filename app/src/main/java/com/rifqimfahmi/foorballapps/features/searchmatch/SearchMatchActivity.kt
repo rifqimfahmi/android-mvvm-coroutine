@@ -7,14 +7,14 @@ import com.rifqimfahmi.foorballapps.features.matches.adapter.MatchesAdapter
 import com.rifqimfahmi.foorballapps.util.obtainViewModel
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
-import kotlinx.android.synthetic.main.list_items.*
+import com.rifqimfahmi.foorballapps.databinding.ListItemsBinding
 
 class SearchMatchActivity : BaseSearchActivity<Match>() {
 
     private lateinit var viewModel: SearchMatchViewModel
 
     override fun setupAdapter() {
-        rv_list.adapter = MatchesAdapter(this, Resource.loading(null)) {
+        rvList.adapter = MatchesAdapter(this, Resource.loading(null)) {
             startActivity(MatchDetailActivity.getStartIntent(this, it.idEvent, it.idHomeTeam, it.idAwayTeam))
         }
     }
@@ -32,8 +32,8 @@ class SearchMatchActivity : BaseSearchActivity<Match>() {
     }
 
     override fun updateData(data: Resource<List<Match>>?) {
-        if (data == null || rv_list == null) return
-        (rv_list.adapter as MatchesAdapter).submitData(data)
+        if (data == null || rvList == null) return
+        (rvList.adapter as MatchesAdapter).submitData(data)
     }
 
     private fun obtainViewModel() = obtainViewModel(SearchMatchViewModel::class.java)

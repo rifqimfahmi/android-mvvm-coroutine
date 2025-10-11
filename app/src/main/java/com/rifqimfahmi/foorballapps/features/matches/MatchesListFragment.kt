@@ -13,7 +13,7 @@ import com.rifqimfahmi.foorballapps.features.matches.adapter.MatchesAdapter
 import com.rifqimfahmi.foorballapps.vo.Match
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.rifqimfahmi.foorballapps.vo.Status
-import kotlinx.android.synthetic.main.list_items.*
+import com.rifqimfahmi.foorballapps.databinding.ListItemsBinding
 
 /*
  * Created by Rifqi Mulya Fahmi on 19/11/18.
@@ -21,12 +21,13 @@ import kotlinx.android.synthetic.main.list_items.*
 
 class MatchesListFragment : Fragment() {
 
+    private lateinit var binding: ListItemsBinding
     private lateinit var viewModel: MatchesViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.list_items, container, false).also { view ->
-            viewModel = (activity as MatchesActivity).obtainViewModel()
-        }
+        binding = ListItemsBinding.inflate(inflater, container, false)
+        viewModel = (activity as MatchesActivity).obtainViewModel()
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -35,9 +36,9 @@ class MatchesListFragment : Fragment() {
     }
 
     private fun setupList() {
-        srl_list.setOnRefreshListener { viewModel.refreshMatches() }
-        rv_list.layoutManager = LinearLayoutManager(context)
-        rv_list.adapter = MatchesAdapter(context, Resource.loading(null)) {
+        binding.srlList.setOnRefreshListener { viewModel.refreshMatches() }
+        binding.rvList.layoutManager = LinearLayoutManager(context)
+        binding.rvList.adapter = MatchesAdapter(context, Resource.loading(null)) {
             context?.startActivity(
                 MatchDetailActivity.getStartIntent(context, it.idEvent, it.idHomeTeam, it.idAwayTeam)
             )
@@ -58,13 +59,13 @@ class MatchesListFragment : Fragment() {
     }
 
     private fun updateData(data: Resource<List<Match>>?) {
-        if (data == null || rv_list == null) return
-        (rv_list.adapter as MatchesAdapter).submitData(data)
+        if (data == null || binding.rvList == null) return
+        (binding.rvList.adapter as MatchesAdapter).submitData(data)
         updateRefreshIndicator(data)
     }
 
     private fun <T> updateRefreshIndicator(data: Resource<List<T>>) {
-        srl_list.isRefreshing = data.status == Status.LOADING
+        binding.srlList.isRefreshing = data.status == Status.LOADING
     }
 
     private fun getType(): String? {

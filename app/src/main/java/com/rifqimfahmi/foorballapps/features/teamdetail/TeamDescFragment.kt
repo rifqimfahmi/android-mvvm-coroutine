@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import com.rifqimfahmi.foorballapps.R
 import com.rifqimfahmi.foorballapps.vo.Resource
 import com.rifqimfahmi.foorballapps.vo.Team
-import kotlinx.android.synthetic.main.fragment_team_detail.*
+import com.rifqimfahmi.foorballapps.databinding.FragmentTeamDetailBinding
 
 /*
  * Created by Rifqi Mulya Fahmi on 08/12/18.
@@ -17,12 +17,13 @@ import kotlinx.android.synthetic.main.fragment_team_detail.*
 
 class TeamDescFragment : Fragment() {
 
+    private lateinit var binding: FragmentTeamDetailBinding
     private lateinit var viewModel: TeamViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return LayoutInflater.from(context).inflate(R.layout.fragment_team_detail, container, false).also {
-            viewModel = (activity as TeamDetailActivity).obtainViewModel()
-        }
+        binding = FragmentTeamDetailBinding.inflate(inflater, container, false)
+        viewModel = (activity as TeamDetailActivity).obtainViewModel()
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -34,7 +35,7 @@ class TeamDescFragment : Fragment() {
 
     private fun updateTeamDetail(resource: Resource<Team>?) {
         val team = resource?.data ?: return
-        tv_desc.text = team.strDescriptionEN
+        binding.tvDesc.text = team.strDescriptionEN
     }
 
     companion object {

@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.rifqimfahmi.foorballapps.R
+import com.rifqimfahmi.foorballapps.databinding.FragmentFavoritesBinding
 import com.rifqimfahmi.foorballapps.features.matches.adapter.FavoritesPagerAdapter
-import kotlinx.android.synthetic.main.fragment_favorites.*
 
 /*
  * Created by Rifqi Mulya Fahmi on 19/11/18.
@@ -15,8 +15,11 @@ import kotlinx.android.synthetic.main.fragment_favorites.*
 
 class FavoritesFragment : Fragment() {
 
+    private lateinit var binding: FragmentFavoritesBinding
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_favorites, container, false)
+        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -25,8 +28,8 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun setupViewPager() {
-        vpFavorites.adapter = FavoritesPagerAdapter(childFragmentManager)
-        tabFavorites.setupWithViewPager(vpFavorites)
+        binding.vpFavorites.adapter = FavoritesPagerAdapter(childFragmentManager)
+        binding.tabFavorites.setupWithViewPager(binding.vpFavorites)
     }
 
     companion object {
