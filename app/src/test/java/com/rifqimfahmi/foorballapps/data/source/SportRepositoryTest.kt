@@ -75,10 +75,10 @@ class SportRepositoryTest {
 
         dbData.postValue(null)
         verify(service).getMatchDetail(testMatchId)
-        verify(dao).saveMatches(match.events!!)
+        verify(dao).saveMatches(match.events!!.filterNotNull())
 
-        updateDbData.postValue(match.events!![0])
-        verify(obs).onChanged(Resource.success(match.events!![0]))
+        updateDbData.postValue(match.events!!.filterNotNull()[0])
+        verify(obs).onChanged(Resource.success(match.events!!.filterNotNull()[0]))
     }
 
 }
